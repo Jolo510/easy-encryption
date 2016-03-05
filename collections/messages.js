@@ -27,7 +27,7 @@ let MessagesSchema = new SimpleSchema({
 		optional: true,
 		max: 50
 	},
-	"messages": {
+	"message": {
 		type: String,
 		label: "Users public key used for encrypting messages",
 		optional: true

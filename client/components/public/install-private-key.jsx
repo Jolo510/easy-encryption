@@ -22,9 +22,9 @@ InstallPrivateKey = React.createClass({
     	}
 
     	// Button to download private key. Asking them if this is the device and browser they want to save it on
-		var rsa = new RSA({b: 512});
+  		var rsa = new RSA({b: 512});
 
-		var key = rsa.generateKeyPair();
+  		var key = rsa.generateKeyPair();
 
     	// Save this key to the user account
    		var publicKey = key.exportKey("pkcs8-public");
@@ -38,46 +38,48 @@ InstallPrivateKey = React.createClass({
    		});
 
    		// Save this key in local storage
-		var privateKey = key.exportKey("pkcs8"); 
+  		var privateKey = key.exportKey("pkcs8"); 
 
-		// Saving private key to local storage
-		if(typeof(Storage) !== "undefined") {
-		    // Code for localStorage/sessionStorage.
-		    localStorage.setItem("easyEncodingKey", privateKey);
+  		// Saving private key to local storage
+  		if(typeof(Storage) !== "undefined") {
+  		    // Code for localStorage/sessionStorage.
+  		    localStorage.setItem("easyEncodingKey-"+result.emailAddress, privateKey);
 
-		    var pk = localStorage.getItem("easyEncodingKey");
-		    if (pk) {
-		    	console.log(pk.toString());
-		    	Meteor.call("setPrivateKeyStatus", token, true, function(err, result) {
-		    		if (err) {
-		    			console.log(err);
-		    			return;
-		    		}
+  		    var pk = localStorage.getItem("easyEncodingKey-"+result.emailAddress);
 
-		    		console.log("Result ", result);
-		    	});	    	
-		    } else {
-		    	console.log("Unable to set private key status.");
-		    }
-		} else {
-			console.log("Your browser does not support local storage. There for you can't use this app");
-		}
+  		    if (pk) {
+  		    	console.log(pk.toString());
+  		    	Meteor.call("setPrivateKeyStatus", token, true, function(err, result) {
+  		    		if (err) {
+  		    			console.log(err);
+  		    			return;
+  		    		}
 
-		localStorage.removeItem("easyEncodingKey");
+  		    		console.log("Result ", result);
+  		    	});	    	
+  		    } else {
+  		    	console.log("Unable to set private key status.");
+  		    }
+  		} else {
+  			console.log("Your browser does not support local storage. There for you can't use this app");
+  		}
 
-		// Encoding with public key
-		var publicEnc = new RSA(publicKey, 'pkcs8-public');
+  		// localStorage.removeItem("easyEncodingKey");
 
-		var eMessage = publicEnc.encrypt("Hello, world! What's good!");
+  		// Encoding with public key
+  		var publicEnc = new RSA(publicKey, 'pkcs8-public');
 
-		console.log("Encrypted Message : ", eMessage);
+  		var eMessage = publicEnc.encrypt("Hello, world! What's good!");
 
-		// Importing private key
-		key2 = new RSA(privateKey,'pkcs8');
+  		console.log("Encrypted Message : ", eMessage);
 
-		var message = key2.decrypt(eMessage);
+      console.log("E TYPE ", eMessage.constructor.name);
+  		// Importing private key
+  		key2 = new RSA(privateKey,'pkcs8');
 
-		console.log("Message ", message.toString());
+  		var message = key2.decrypt(eMessage);
+
+
 
     });
 

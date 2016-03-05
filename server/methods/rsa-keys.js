@@ -20,7 +20,8 @@ Meteor.methods({
 				console.log("Private key hasn't been downloaded yet.");
 				return {
 					isValidLink: true,
-					downloadKey: true
+					downloadKey: true,
+					emailAddress: user.email
 				}
 			}
 		} else {

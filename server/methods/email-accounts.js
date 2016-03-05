@@ -42,6 +42,8 @@ Meteor.methods({
 			email: emailAddress
 		});
 
+    console.log("Status ", status);
+
 		if ( status ) {
 			console.log("Email exists returning now");
 			return true;
@@ -81,14 +83,17 @@ Meteor.methods({
   	if ( account ) {
   		var email = account.email;
 
+  		console.log("Encrypted Message : ", encryptedMessage);
+  		console.log("Constructor : ", encryptedMessage.constructor.name);
   		var status = Messages.insert({
   			userEmail: userEmail, 
   			senderEmail: senderEmail,
   			message: encryptedMessage
   		});
 
+  		console.log("Status ", status);
   		if ( status ) {
-  			console.log("Messgae Saved");
+  			console.log("Message Saved");
   			return {
   				message: "Email Saved"
   			};
@@ -104,5 +109,18 @@ Meteor.methods({
   			error: "User doens't exists"
   		};
   	}
+  },
+
+  viewEmailMessages: function(userEmail) {
+		check([userEmail], [String]);
+		this.unblock();
+
+		var messages = Messages.find({
+			userEmail: userEmail
+		}).fetch();
+
+		console.log("Messages ", messages);
+
+		return messages;
   }
 });

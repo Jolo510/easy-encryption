@@ -24,7 +24,30 @@ publicRoutes.route( '/install-key/:token', {
 });
 
 publicRoutes.route( '/send/:email', {
-  name: 'send encrypted messages',
+  name: 'Send encrypted messages',
+  action: function(params) {
+    var email = params.email;
+    Meteor.call("checkIfAccountExists", email, function(err, result) {
+      if ( err ) {
+        console.log(err);
+        ReactLayout.render( Default, { yield: <Welcome /> } );
+        return;
+      }
+      
+      if ( result ) {
+        // Account exists
+        ReactLayout.render( Default, { yield: <SendMessageLoader email={params.email} /> } );
+      } else {
+        // Account doesn't exists
+        FlowRouter.go( '/welcome' );
+        Bert.alert("Account doesn't exists. Create one!", "danger");
+      } 
+    }); 
+  }
+});
+
+publicRoutes.route( '/view/:email', {
+  name: 'View encrypted messages',
   action: function(params) {
     var email = params.email;
     Meteor.call("checkIfAccountExists", email, function(err, result) {
@@ -34,15 +57,17 @@ publicRoutes.route( '/send/:email', {
         return;
       }
 
+      console.log("Results ", result);
+
       if ( result ) {
         // Account exists
-        ReactLayout.render( Default, { yield: <SendMessageForm email={params.email} /> } );
+        ReactLayout.render( Default, { yield: <ViewMessagesLoader email={params.email} /> } );
       } else {
         // Account doesn't exists
         FlowRouter.go( '/welcome' );
         Bert.alert("Account doesn't exists. Create one!", "danger");
       } 
-    }); 
+    });
   }
 });
 
