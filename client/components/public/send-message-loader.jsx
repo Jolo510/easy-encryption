@@ -1,16 +1,14 @@
 SendMessageLoader = React.createClass({
 	messageformItem() {
 		let emailAddress = this.props.email;
-		emailAddress=false;
-
-		return <SendMessageForm />;
+		// Wanted to handle if key existed or not here but did it in the route instead
+		return <SendMessageForm email={emailAddress} />;
 	},
 	render() {
 		return(
-      <div>
-      	<h2>Send Message</h2>
-      	{this.messageformItem()}
-      </div>
+			<div>
+				{this.messageformItem()}
+			</div>
 		);
 	}
 });

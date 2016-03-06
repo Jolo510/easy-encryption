@@ -6,6 +6,7 @@ ViewMessagesLoader = React.createClass({
 
     // An array of objects
     var messages = Messages.find({ userEmail: emailAddress}).fetch();
+    console.log("Messages loader ", messages);
     return {
       messagesLoading: ! handle.ready(),
       messages: Messages.find({ userEmail: emailAddress}).fetch()

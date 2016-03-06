@@ -36,7 +36,22 @@ publicRoutes.route( '/send/:email', {
       
       if ( result ) {
         // Account exists
-        ReactLayout.render( Default, { yield: <SendMessageLoader email={params.email} /> } );
+        console.log("Email is : " + params.email);
+        // Check if public key exists
+        Meteor.call("getUserPublicKey", email, function(err, result) {
+          if (err) {
+            console.log("Unable to get public key ", err);
+            return;
+          }
+          if (result) {
+            ReactLayout.render( Default, { yield: <SendMessageLoader email={params.email} /> } );
+          } else {
+            // No public key, user didn't create their public/private key pair yet
+            FlowRouter.go( '/welcome' );
+            Bert.alert("User didn't generate their public key yet!", "warning");            
+          }
+        });
+
       } else {
         // Account doesn't exists
         FlowRouter.go( '/welcome' );
@@ -60,8 +75,17 @@ publicRoutes.route( '/view/:email', {
       console.log("Results ", result);
 
       if ( result ) {
-        // Account exists
-        ReactLayout.render( Default, { yield: <ViewMessagesLoader email={params.email} /> } );
+        Meteor.call("getUserPublicKey", email, function(err, publicKey) {
+          if ( publicKey ) {
+            // Account exists
+            ReactLayout.render( Default, { yield: <ViewMessagesLoader email={params.email} /> } );
+          } else {
+            // Public key doesn't exists
+            FlowRouter.go( '/welcome' );
+            Bert.alert("User didn't generate their public key yet!", "warning");            
+          }
+        });
+
       } else {
         // Account doesn't exists
         FlowRouter.go( '/welcome' );

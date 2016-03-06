@@ -27,9 +27,14 @@ let MessagesSchema = new SimpleSchema({
 		optional: true,
 		max: 50
 	},
+	"subject": {
+		type: String,
+		label: "Encrypted Subject from sender",
+		optional: true
+	},
 	"message": {
 		type: String,
-		label: "Users public key used for encrypting messages",
+		label: "Encrypted Messaged from sender",
 		optional: true
 	}
 });

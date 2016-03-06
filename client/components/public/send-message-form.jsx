@@ -7,11 +7,11 @@ SendMessageForm = React.createClass({
     let message = $( '[name="message"]' ).val();
 
     let emailAddress = this.props.email;
-
+    
     Meteor.call("getUserPublicKey", emailAddress, function(err, publicKey) {
       if (err) {
         console.log(err);
-        console.log("Error geting public key");
+        console.log("Error getting public key");
         return;
       }
 
@@ -25,12 +25,15 @@ SendMessageForm = React.createClass({
 
       var publicEnc = new RSA(publicKey, 'pkcs8-public');
 
+      var encryptedSubject = publicEnc.encrypt(subject, 'base64');
+
       var encryptedMessage = publicEnc.encrypt(message, 'base64');
 
       // Private key has to be downloaded before you can send messages. - Cause no public key to encrypt
 
+      console.log("Encrypted Subject is", encryptedSubject);
       console.log("Encrypted Message is", encryptedMessage);
-      Meteor.call("saveEmailMessage", emailAddress, senderEmail, encryptedMessage, function(err, result) {
+      Meteor.call("saveEmailMessage", emailAddress, senderEmail, encryptedSubject, encryptedMessage, function(err, result) {
         if ( err ) {
           console.log("There was an error", err);
           return; 

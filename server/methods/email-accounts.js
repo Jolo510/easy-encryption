@@ -72,8 +72,8 @@ Meteor.methods({
   	}
   },
 
-  saveEmailMessage: function(userEmail, senderEmail, encryptedMessage) {
-  	check([userEmail, senderEmail, encryptedMessage], [String]);
+  saveEmailMessage: function(userEmail, senderEmail, encryptedSubject, encryptedMessage) {
+  	check([userEmail, senderEmail, encryptedSubject, encryptedMessage], [String]);
   	this.unblock();
 
   	var account = EmailAccounts.findOne({
@@ -88,6 +88,7 @@ Meteor.methods({
   		var status = Messages.insert({
   			userEmail: userEmail, 
   			senderEmail: senderEmail,
+        subject: encryptedSubject,
   			message: encryptedMessage
   		});
 
@@ -106,7 +107,7 @@ Meteor.methods({
   	} else {
   		console.log("User doesn't exists");
   		return {
-  			error: "User doens't exists"
+  			error: "User doesn't exists"
   		};
   	}
   },
