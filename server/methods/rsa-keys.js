@@ -7,7 +7,7 @@ Meteor.methods({
 
 		console.log("Token : " + user);
 
-		if (user) {
+		if ( user ) {
 			if (user.isPrivateKeyDownloaded) {
 				// Already downloaded private key
 				console.log("User already downloaded private key.");

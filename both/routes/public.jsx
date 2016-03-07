@@ -19,7 +19,37 @@ publicRoutes.route( '/welcome', {
 publicRoutes.route( '/install-key/:token', {
 	name: 'install-key',
 	action: function(params) {
-		ReactLayout.render( Default, { yield: <InstallPrivateKey token={params.token} /> } );
+    const token = params.token;
+
+    Meteor.call("checkUrlToken", token, function(err, result) {
+      if ( err ) {
+        // Render Error page
+        return;
+      }
+
+      if ( !result.isValidLink ) {
+        // Invalid Link. Render Invalid link component
+
+        console.log("Invalid Link");
+        return;
+      }
+
+      if ( !result.downloadKey ) {
+        // Download Link is no longer active. Private key has already been downloaded
+        // User could potentially visit this page many times without actually generating the private/public key pair
+        console.log("Download link no longer active.");
+        return;
+      }
+
+      // Render Normal Page with button to generate private/public key pair
+
+      if ( result.isValidLink && result.downloadKey ) {
+        // Result should contain email address
+        const email = result.emailAddress;
+        ReactLayout.render( Default, { yield: <InstallPrivateKey token={params.token} email={email} /> } );
+        return;
+      }
+    });
 	}
 });
 
@@ -36,14 +66,13 @@ publicRoutes.route( '/send/:email', {
       
       if ( result ) {
         // Account exists
-        console.log("Email is : " + params.email);
         // Check if public key exists
         Meteor.call("getUserPublicKey", email, function(err, result) {
-          if (err) {
+          if ( err ) {
             console.log("Unable to get public key ", err);
             return;
           }
-          if (result) {
+          if ( result ) {
             ReactLayout.render( Default, { yield: <SendMessageLoader email={params.email} /> } );
           } else {
             // No public key, user didn't create their public/private key pair yet
@@ -71,8 +100,6 @@ publicRoutes.route( '/view/:email', {
         ReactLayout.render( Default, { yield: <Welcome /> } );
         return;
       }
-
-      console.log("Results ", result);
 
       if ( result ) {
         Meteor.call("getUserPublicKey", email, function(err, publicKey) {

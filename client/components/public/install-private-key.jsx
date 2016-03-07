@@ -1,97 +1,99 @@
 InstallPrivateKey = React.createClass({
+  // prop validation
   propTypes: {
-    token: React.PropTypes.string.isRequired
+    token: React.PropTypes.string.isRequired,
+    email: React.PropTypes.string.isRequired
   },
-  mixins: [ ReactMeteorData ],
-  getMeteorData() {
-    console.log("Token is : " + this.props.token);
-    var token = this.props.token;
-    
-    Meteor.call("checkUrlToken", token, function(err, result) {
-    	if (err) return;
-    	console.log("isValidUrl : ", result.isValidLink);
+  downloadPrivateKey( event ) {
+    // Checking if web broswer supports local storage
+    if ( typeof(Storage) !== "undefined" ) {
+      const rsa = new RSA({b: 512});
+      const token = this.props.token;
+      const emailAddress = this.props.email;
 
-    	if (!result.isValidLink) {
-    		console.log("Invalid Url.");
-    		return;
-    	}
+      // Generate private/public key pair
+      const key = rsa.generateKeyPair();
+      // Saving private key to the browser
+      const privateKey = key.exportKey("pkcs8");
+      const publicKey = key.exportKey("pkcs8-public");
 
-    	if (!result.downloadKey) {
-    		console.log("Download link no longer active.");
-    		return;
-    	}
+      // setItem(keyName, keyValue) when passed a key name and value, will add that key to the storage
+      // or update that key's value if it already exists
+      /* Issue 
+        - Check for overriding the private key? 
+        - How do I know for sure it saved? Since setItem returns no value
+      */
+      localStorage.setItem("easyEncodingKey-" + emailAddress, privateKey);
 
-    	// Button to download private key. Asking them if this is the device and browser they want to save it on
-  		var rsa = new RSA({b: 512});
+      const savedPrivateKey = localStorage.getItem("easyEncodingKey-" + emailAddress);
 
-  		var key = rsa.generateKeyPair();
+      // If exists save.
+      /* Issue 
+        - Grabbing from local storage after saving there, security issue?
+      */
+      if ( savedPrivateKey ) {
+        // Setting download status of private key to true
+        /* Issue
+          Do I need to authenticate to call this function?
+          Combine the two functions - dependent on each other
+            - Setting private key status
+            - Saving public key
+        */
+        Meteor.call("setPrivateKeyStatus", token, true, function(err, result) {
+          if ( err ) {
+            // Need to display proper message to user
+            console.log("Unable to save private key");
+            return;
+          }
 
-    	// Save this key to the user account
-   		var publicKey = key.exportKey("pkcs8-public");
-   		Meteor.call("savePublicKey", token, publicKey, function(err, results) {
-   			if (err) {
-   				console.log(err);
-   				return;
-   			}
+          if ( result.saveSuccessful ) {
+            // Save public key
+            Meteor.call("savePublicKey", token, publicKey, function( err, result ) {
+              if (err) {
+                // Unable to save public key
+                console.log("Unable to save public key");
+                return;
+              }
 
-   			console.log(results);
-   		});
-
-   		// Save this key in local storage
-  		var privateKey = key.exportKey("pkcs8"); 
-
-  		// Saving private key to local storage
-  		if(typeof(Storage) !== "undefined") {
-  		    // Code for localStorage/sessionStorage.
-  		    localStorage.setItem("easyEncodingKey-"+result.emailAddress, privateKey);
-
-  		    var pk = localStorage.getItem("easyEncodingKey-"+result.emailAddress);
-
-  		    if (pk) {
-  		    	console.log(pk.toString());
-  		    	Meteor.call("setPrivateKeyStatus", token, true, function(err, result) {
-  		    		if (err) {
-  		    			console.log(err);
-  		    			return;
-  		    		}
-
-  		    		console.log("Result ", result);
-  		    	});	    	
-  		    } else {
-  		    	console.log("Unable to set private key status.");
-  		    }
-  		} else {
-  			console.log("Your browser does not support local storage. There for you can't use this app");
-  		}
-
-  		// localStorage.removeItem("easyEncodingKey");
-
-  		// Encoding with public key
-  		var publicEnc = new RSA(publicKey, 'pkcs8-public');
-
-  		var eMessage = publicEnc.encrypt("Hello, world! What's good!");
-
-  		console.log("Encrypted Message : ", eMessage);
-
-      console.log("E TYPE ", eMessage.constructor.name);
-  		// Importing private key
-  		key2 = new RSA(privateKey,'pkcs8');
-
-  		var message = key2.decrypt(eMessage);
-
-
-
-    });
-
-    return {
-
-    };
+              if ( result.saveSuccessful ) {
+                // Saving public key complele
+                console.log("Public key saved!");
+              } else {
+                // Save unsucessful
+                console.log(result.message);
+                return;
+              }
+            });
+          } else {
+            // Either unable to save private key or unable to find user account
+            // Translate message to user
+            console.log("Error : " + result.message);
+          }
+        });
+      } else {
+        // Issue private key to local storage
+        // Need to display proper message to user
+        console.log("Issue with saving private key to local storage");
+        return;
+      }
+    } else {
+      // Doesn't support local storage, can't install private key
+      console.log("Your browser doesn't support local storage");
+      return;
+    }
   },
   render() {
     return (
     	<div className="container">
-    		<h2>Installing your private key</h2>
+        <h3>Download your private key for this computer and browser</h3>
+        <button className="btn btn-default" onClick={this.downloadPrivateKey}>
+          Download Private Key
+        </button>
     	</div>
     );
   }
 });
+
+
+
+
