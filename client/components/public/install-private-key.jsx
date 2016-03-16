@@ -4,6 +4,13 @@ InstallPrivateKey = React.createClass({
     token: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired
   },
+  doesBrowserSupportLocalStorage() {
+    if ( typeof(Storage) !== "undefined" ) {
+      return <span className="label label-success">Browser Supported!</span>
+    } else {
+      return <span className="label label-danger">Browser Not Supported!</span>
+    }
+  },
   downloadPrivateKey( event ) {
     // Checking if web broswer supports local storage
     if ( typeof(Storage) !== "undefined" ) {
@@ -79,6 +86,7 @@ InstallPrivateKey = React.createClass({
     } else {
       // Doesn't support local storage, can't install private key
       console.log("Your browser doesn't support local storage");
+
       return;
     }
   },
@@ -86,6 +94,7 @@ InstallPrivateKey = React.createClass({
     return (
     	<div className="container">
         <h3>Download your private key for this computer and browser</h3>
+        {this.doesBrowserSupportLocalStorage()} <br />
         <button className="btn btn-default" onClick={this.downloadPrivateKey}>
           Download Private Key
         </button>
@@ -93,7 +102,6 @@ InstallPrivateKey = React.createClass({
     );
   }
 });
-
 
 
 

@@ -24,15 +24,11 @@ SendMessageForm = React.createClass({
       }
 
       var publicEnc = new RSA(publicKey, 'pkcs8-public');
-
       var encryptedSubject = publicEnc.encrypt(subject, 'base64');
-
       var encryptedMessage = publicEnc.encrypt(message, 'base64');
 
       // Private key has to be downloaded before you can send messages. - Cause no public key to encrypt
 
-      console.log("Encrypted Subject is", encryptedSubject);
-      console.log("Encrypted Message is", encryptedMessage);
       Meteor.call("saveEmailMessage", emailAddress, senderEmail, encryptedSubject, encryptedMessage, function(err, result) {
         if ( err ) {
           console.log("There was an error", err);
@@ -42,6 +38,10 @@ SendMessageForm = React.createClass({
         if ( result ) {
           console.log("Result Exists")
           console.log(result);
+          // Clearing input
+          $( '[name="senderEmail"]' ).val("");
+          $( '[name="subject"]' ).val("");
+          $( '[name="message"]' ).val("");
         } else {
           console.log("Result doesn't exists");
           console.log(result);
