@@ -31,7 +31,7 @@ let _handleEmailSignup = () => {
 
   // Alert
   Bert.alert( 'Welcome!' , 'success' );
-
+  
   // Make call to DB to create user if no error or if email doesn't already exisits
   Meteor.call("createEmailAccount", user.email, function(err, result) {
   	if (err) {
@@ -43,6 +43,9 @@ let _handleEmailSignup = () => {
   	} else {
   		Bert.alert( 'Confirmation email is being sent.', 'success' );
   	}
+
+    // Clearing input
+    $( '[name="emailAddress"]' ).val( '' );
   });
 };
 

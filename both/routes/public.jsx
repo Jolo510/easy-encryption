@@ -16,6 +16,13 @@ publicRoutes.route( '/welcome', {
   }
 });
 
+publicRoutes.route( '/about', {
+  name: 'about', 
+  action() {
+    ReactLayout.render( Default, { yield: <About /> } );
+  }
+});
+
 publicRoutes.route( '/install-key/:token', {
 	name: 'install-key',
 	action: function(params) {
@@ -27,17 +34,18 @@ publicRoutes.route( '/install-key/:token', {
         return;
       }
 
-      if ( !result.isValidLink ) {
-        // Invalid Link. Render Invalid link component
-
-        console.log("Invalid Link");
+      if ( !result.isValidLink && !result.downloadKey) {
+          // Invalid Link. Redirect to home page with alert
+          FlowRouter.go( '/welcome' );
+          Bert.alert("Invalid link to generate public/private key.", "danger"); 
         return;
       }
 
       if ( !result.downloadKey ) {
         // Download Link is no longer active. Private key has already been downloaded
         // User could potentially visit this page many times without actually generating the private/public key pair
-        console.log("Download link no longer active.");
+        FlowRouter.go( '/welcome' );
+        Bert.alert("Download link is no longer active. Did you already install your key?", "warning"); 
         return;
       }
 
