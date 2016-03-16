@@ -14,8 +14,12 @@ AppHeader = React.createClass({
     }
   },
   render() {
+    let navbarStyle = {
+      'margin-bottom': '0px'
+    };
+
     return (
-      <nav className="navbar navbar-default" role="navigation">
+      <nav className="navbar navbar-default" style={navbarStyle} role="navigation">
         <div className="container">
           <div className="navbar-header">
             <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
@@ -24,7 +28,7 @@ AppHeader = React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand" href={this.brandLink()}>Base in React</a>
+            <a className="navbar-brand" href={this.brandLink()}>Easy Encryption</a>
           </div>
           {this.navigationItems()}
         </div>
