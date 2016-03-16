@@ -3,7 +3,9 @@ PublicNavigation = React.createClass({
     return (
       <div id="navbar-collapse" className="collapse navbar-collapse">
         <ul className="nav navbar-nav navbar-right">
-
+          <li>
+            <a href={FlowHelpers.pathFor( 'about' )}>About</a>
+          </li>
         </ul>
       </div>
     );
