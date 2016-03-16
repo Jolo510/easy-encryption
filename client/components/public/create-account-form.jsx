@@ -9,18 +9,30 @@ CreateAccountForm = React.createClass({
     event.preventDefault();
   },
 	render() {
+		let divStyle = {
+			'marginRight': '5px'
+		}
+
+		let inputStyle ={
+			'minWidth': '300px'
+		}
 		return (
 			<div>
-				<form id="emailSignup" className="signUp" onSubmit={this.handleSubmit}>
-					<div className="form-group">
-			    	<label htmlFor="eamilAddress">Email address &nbsp;</label>
-			    	<input 
-			    		type="email"
-							name="emailAddress"
-			    		className="form-control"
-			    		placeholder="Email Address" />
+				<form id="emailSignup" className="form-inline signUp" onSubmit={this.handleSubmit}>
+					<div className="form-group" style={divStyle}>
+			    	<label className="sr-only" htmlFor="emailAddress">Email address &nbsp;</label>
+			    	<div className="input-group">
+				    	<input
+				    		type="email"
+								name="emailAddress"
+				    		className="form-control"
+				    		style={inputStyle}
+				    		placeholder="Email Address" />
+						  <span className="input-group-btn">
+								<button type="submit" className="btn btn-success">Submit</button>
+						  </span>
+				    </div>
 				  </div>
-					<button type="submit" className="btn btn-success">Submit</button>
 				</form>
 			</div>
 		);
