@@ -1,8 +1,31 @@
 MessagesTable = React.createClass({
+	senderEmail() {
+		// Refactor getting the private key and decrpting. DRY..
+		let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.message.userEmail );
+		let senderEmail = this.props.message.senderEmail;
+
+		console.log("Sender Email", senderEmail);
+		// Sender Email is required
+		if (!senderEmail) {
+			return "";
+		}
+
+		if ( privateKey ) {
+			var key = new RSA();
+
+			key.importKey( privateKey, 'pkcs8' );
+
+			var decryptedSenderEmail = key.decrypt( senderEmail, 'base64' );
+
+			return window.atob( decryptedSenderEmail );
+		} else {
+			return senderEmail;
+		}
+	},
 	subject() {
 		let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.message.userEmail );
-		var subject = this.props.message.subject; 
-		
+		var subject = this.props.message.subject;
+
 		// Check if subject exists since it's optional
 		if (!subject) {
 			return "";
@@ -29,7 +52,7 @@ MessagesTable = React.createClass({
 		if (!message) {
 			return "";
 		}
-		
+
 		if (privateKey) {
 			var key = new RSA();
 
@@ -45,17 +68,17 @@ MessagesTable = React.createClass({
 	},
   render() {
   	return (
-  		<div>
+  		<div className="container">
   			<br />
   			<div>
-  				<b>Sender :</b> { this.props.message.senderEmail }
+  				<b>Sender :</b> { this.senderEmail() }
   			</div>
   			<div>
   				<b>Subject :</b> { this.subject() }
   			</div>
   			<div>
   				<br />
-  				<b>Message</b> <br /> { this.message() }
+  				<b>Message</b> <br /> <span style={{width: '100px'}}>{ this.message() }</span>
   			</div>
   		</div>
   	);

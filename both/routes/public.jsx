@@ -17,7 +17,7 @@ publicRoutes.route( '/welcome', {
 });
 
 publicRoutes.route( '/about', {
-  name: 'about', 
+  name: 'about',
   action() {
     ReactLayout.render( Default, { yield: <About /> } );
   }
@@ -31,29 +31,42 @@ publicRoutes.route( '/install-key/:token', {
     Meteor.call("checkUrlToken", token, function(err, result) {
       if ( err ) {
         // Render Error page
-        return;
-      }
 
-      if ( !result.isValidLink && !result.downloadKey) {
-          // Invalid Link. Redirect to home page with alert
+        if ( err.error == "download-denied" ) {
           FlowRouter.go( '/welcome' );
-          Bert.alert("Invalid link to generate public/private key.", "danger"); 
+          Bert.alert("Download link is no longer active. Did you already install your key?", "warning");
+        }
+
+        if ( err.error == "invalid-token" ) {
+          FlowRouter.go( '/welcome' );
+          Bert.alert("Invalid link to generate public/private key.", "danger");
+        }
+
         return;
       }
 
-      if ( !result.downloadKey ) {
-        // Download Link is no longer active. Private key has already been downloaded
-        // User could potentially visit this page many times without actually generating the private/public key pair
-        FlowRouter.go( '/welcome' );
-        Bert.alert("Download link is no longer active. Did you already install your key?", "warning"); 
-        return;
-      }
+      // if ( !result.isValidLink && !result.downloadKey) {
+      //     // Invalid Link. Redirect to home page with alert
+      //     FlowRouter.go( '/welcome' );
+      //     Bert.alert("Invalid link to generate public/private key.", "danger");
+      //   return;
+      // }
+
+      // if ( !result.downloadKey ) {
+      //   // Download Link is no longer active. Private key has already been downloaded
+      //   // User could potentially visit this page many times without actually generating the private/public key pair
+      //   FlowRouter.go( '/welcome' );
+      //   Bert.alert("Download link is no longer active. Did you already install your key?", "warning");
+      //   return;
+      // }
 
       // Render Normal Page with button to generate private/public key pair
 
-      if ( result.isValidLink && result.downloadKey ) {
+      if ( result ) {
         // Result should contain email address
-        const email = result.emailAddress;
+
+        console.log("Result", result);
+        const email = result;
         ReactLayout.render( Default, { yield: <InstallPrivateKey token={params.token} email={email} /> } );
         return;
       }
@@ -71,7 +84,7 @@ publicRoutes.route( '/send/:email', {
         ReactLayout.render( Default, { yield: <Welcome /> } );
         return;
       }
-      
+
       if ( result ) {
         // Account exists
         // Check if public key exists
@@ -85,7 +98,7 @@ publicRoutes.route( '/send/:email', {
           } else {
             // No public key, user didn't create their public/private key pair yet
             FlowRouter.go( '/welcome' );
-            Bert.alert("User didn't generate their public key yet!", "warning");            
+            Bert.alert("User didn't generate their public key yet!", "warning");
           }
         });
 
@@ -93,8 +106,8 @@ publicRoutes.route( '/send/:email', {
         // Account doesn't exists
         FlowRouter.go( '/welcome' );
         Bert.alert("Account doesn't exists. Create one!", "danger");
-      } 
-    }); 
+      }
+    });
   }
 });
 
@@ -117,7 +130,7 @@ publicRoutes.route( '/view/:email', {
           } else {
             // Public key doesn't exists
             FlowRouter.go( '/welcome' );
-            Bert.alert("User didn't generate their public key yet!", "warning");            
+            Bert.alert("User didn't generate their public key yet!", "warning");
           }
         });
 
@@ -125,7 +138,7 @@ publicRoutes.route( '/view/:email', {
         // Account doesn't exists
         FlowRouter.go( '/welcome' );
         Bert.alert("Account doesn't exists. Create one!", "danger");
-      } 
+      }
     });
   }
 });

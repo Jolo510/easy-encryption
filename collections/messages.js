@@ -23,9 +23,9 @@ let MessagesSchema = new SimpleSchema({
 	"senderEmail": {
 		type: String,
 		label: "Email of the sender of the messages",
-		regEx: SimpleSchema.RegEx.Email,
-		optional: true,
-		max: 50
+		// regEx: SimpleSchema.RegEx.Email,
+		optional: false,
+		// max: 50
 	},
 	"subject": {
 		type: String,

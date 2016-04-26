@@ -15,7 +15,7 @@ AppHeader = React.createClass({
   },
   render() {
     let navbarStyle = {
-      'margin-bottom': '0px'
+      'marginBottom': '0px'
     };
 
     return (

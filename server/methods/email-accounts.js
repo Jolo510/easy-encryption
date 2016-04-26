@@ -1,14 +1,13 @@
 // In your server code: define a method that the client can call
 Meteor.methods({
-	createEmailAccount: function (emailAddress) {
+ createEmailAccount: function (emailAddress) {
 		check([emailAddress], [String]);
-		this.unblock();
-		
+
 		// Returns document if it is found else nothing
 		var status = EmailAccounts.findOne({
 			email: emailAddress
 		});
-		
+
 		if ( status ) {
 			console.log("Email exists returning now");
 			return { emailAlreadyExists: true };
@@ -35,7 +34,6 @@ Meteor.methods({
 
   checkIfAccountExists: function(emailAddress) {
 		check([emailAddress], [String]);
-		this.unblock();
 
 		// Returns document if it is found else nothing
 		var status = EmailAccounts.findOne({
@@ -51,11 +49,10 @@ Meteor.methods({
 			console.log("Account doesn't exisits.");
 			return false;
 		}
-  }, 
+  },
 
   getUserPublicKey: function(emailAddress) {
   	check([emailAddress], [String]);
-  	this.unblock();
 
   	var account = EmailAccounts.findOne({
   		email: emailAddress
@@ -72,9 +69,8 @@ Meteor.methods({
   	}
   },
 
-  saveEmailMessage: function(userEmail, senderEmail, encryptedSubject, encryptedMessage) {
-  	check([userEmail, senderEmail, encryptedSubject, encryptedMessage], [String]);
-  	this.unblock();
+  saveEmailMessage: function(userEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage) {
+  	check([userEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage], [String]);
 
   	var account = EmailAccounts.findOne({
   		email: userEmail
@@ -83,44 +79,42 @@ Meteor.methods({
   	if ( account ) {
   		var email = account.email;
 
-  		console.log("Encrypted Message : ", encryptedMessage);
-  		console.log("Constructor : ", encryptedMessage.constructor.name);
   		var status = Messages.insert({
-  			userEmail: userEmail, 
-  			senderEmail: senderEmail,
+  			userEmail: userEmail,
+  			senderEmail: encryptedSenderEmail,
         subject: encryptedSubject,
   			message: encryptedMessage
   		});
 
-  		console.log("Status ", status);
   		if ( status ) {
   			console.log("Message Saved");
-  			return {
-  				message: "Email Saved"
-  			};
+  			// return {
+  			// 	message: "Email Saved"
+  			// };
+				return true;
   		} else {
   			console.log("Unable to save message");
-  			return {
-  				error: "Unable to save message"
-  			};
+  			// return {
+  			// 	error: "Unable to save message"
+  			// };
+				throw new Meteor.Error("error-saving", "Unable to save the message.");
   		}
   	} else {
   		console.log("User doesn't exists");
-  		return {
-  			error: "User doesn't exists"
-  		};
+  		// return {
+  		// 	error: "User doesn't exists"
+  		// };
+
+			throw new Meteor.Error("does-not-exists", "User doesn't exists.");
   	}
   },
 
   viewEmailMessages: function(userEmail) {
 		check([userEmail], [String]);
-		this.unblock();
 
 		var messages = Messages.find({
 			userEmail: userEmail
 		}).fetch();
-
-		console.log("Messages ", messages);
 
 		return messages;
   }

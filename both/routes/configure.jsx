@@ -13,7 +13,7 @@ FlowRouter.notFound = {
 
 if ( Meteor.isClient ) {
   Tracker.autorun( () => {
-    console.log("Tracker autorun", FlowRouter.current().route);
+    // console.log("Tracker autorun", FlowRouter.current().route);
     if ( !Meteor.userId() && FlowRouter.current().route ) {
       FlowRouter.go( 'login' );
     }

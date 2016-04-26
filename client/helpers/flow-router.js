@@ -1,6 +1,4 @@
 let pathFor = ( path, params ) => {
-  console.log( params );
-  
   let query = params && params.query ? FlowRouter._qs.parse( params.query ) : {};
   return FlowRouter.path( path, params, query );
 };

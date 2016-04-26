@@ -7,44 +7,51 @@ SendMessageForm = React.createClass({
     let message = $( '[name="message"]' ).val();
 
     let emailAddress = this.props.email;
-    
+
     Meteor.call("getUserPublicKey", emailAddress, function(err, publicKey) {
-      if (err) {
-        console.log(err);
-        console.log("Error getting public key");
+      if ( err ) {
+        Bert.alert("Unable to get the users public key", "danger");
         return;
       }
 
-      console.log("Public Key", publicKey);
-      if (publicKey) {
-        console.log("Key exists");
-      } else {
+      if ( !publicKey ) {
         // Handle use case when user hasn't create a key pair yet
-        console.log("Key doesn't exisits");
+        // console.log("Key doesn't exisits");
+        Bert.alert("Users public key doesn't exists", "danger");
       }
 
       var publicEnc = new RSA(publicKey, 'pkcs8-public');
-      var encryptedSubject = publicEnc.encrypt(subject, 'base64');
-      var encryptedMessage = publicEnc.encrypt(message, 'base64');
+      let encryptedSenderEmail = publicEnc.encrypt(senderEmail, 'base64');
+      let encryptedSubject = publicEnc.encrypt(subject, 'base64');
+      let encryptedMessage = publicEnc.encrypt(message, 'base64');
 
       // Private key has to be downloaded before you can send messages. - Cause no public key to encrypt
 
-      Meteor.call("saveEmailMessage", emailAddress, senderEmail, encryptedSubject, encryptedMessage, function(err, result) {
+      Meteor.call("saveEmailMessage", emailAddress, encryptedSenderEmail, encryptedSubject, encryptedMessage, function(err, result) {
         if ( err ) {
-          console.log("There was an error", err);
-          return; 
+          if ( err.error == "error-saving" ) {
+            Bert.alert("Unable to send message.", "danger");
+            return;
+          }
+
+          if ( err.error == "does-not-exists" ) {
+            Bert.alert("User doesn't exists", "danger");
+            return;
+          }
+
+          Bert.alert("An error has occured", "danger");
+          return;
         }
 
         if ( result ) {
-          console.log("Result Exists")
-          console.log(result);
+          Bert.alert("Message Sent", "success");
           // Clearing input
           $( '[name="senderEmail"]' ).val("");
           $( '[name="subject"]' ).val("");
           $( '[name="message"]' ).val("");
         } else {
-          console.log("Result doesn't exists");
-          console.log(result);
+          // Unable to send email
+          Bert.alert("Unable to send email message", "danger");
         }
 
       });
@@ -53,7 +60,7 @@ SendMessageForm = React.createClass({
   },
   render() {
     return (
-      <div>
+      <div className="container">
       	<h2>Send Message</h2>
         <form id="sendMessage" onSubmit={this.handleSubmit}>
           <div className="form-group">
@@ -66,7 +73,7 @@ SendMessageForm = React.createClass({
               required />
 
             <label htmlFor="subject">Subject &nbsp;</label>
-            <input 
+            <input
               type="text"
               name="subject"
               className="form-control"

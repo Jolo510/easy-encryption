@@ -6,7 +6,7 @@ ViewMessagesLoader = React.createClass({
 
     // An array of objects
     var messages = Messages.find({ userEmail: emailAddress}).fetch();
-    console.log("Messages loader ", messages);
+
     return {
       messagesLoading: ! handle.ready(),
       messages: Messages.find({ userEmail: emailAddress}).fetch()
@@ -21,7 +21,7 @@ ViewMessagesLoader = React.createClass({
     }
     //
     return (
-      <div>
+      <div className="container">
         <h2>View Messages</h2>
         {this.data.messages.map( ( message, index ) => {
           return <MessagesTable key={index} message={message} />;
@@ -29,4 +29,4 @@ ViewMessagesLoader = React.createClass({
       </div>
     );
   }
-}); 
+});
