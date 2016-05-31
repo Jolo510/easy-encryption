@@ -13,11 +13,13 @@ Meteor.methods({
 			return { emailAlreadyExists: true };
 		} else {
 			var uniqueId = ShortId.generate();
+      var confirmationCode = ShortId.generate();
 
 			EmailAccounts.insert({
 				email: emailAddress,
 				isPrivateKeyDownloaded: false,
-				urlId: uniqueId
+				urlId: uniqueId,
+        accountConfirmationCode: confirmationCode
 			});
 
 			var emailMessage = "Click the link to install your private key into your browser local storage. http://easyencryption.meteor.com/install-key/"+uniqueId+" Cheers, Easy Encryption";
@@ -32,6 +34,11 @@ Meteor.methods({
 		}
   },
 
+  /**
+   *  Checks if an email address exists in our system
+   *  Input: Email Address
+   *  Output: Boolean
+   **/
   checkIfAccountExists: function(emailAddress) {
 		check([emailAddress], [String]);
 
@@ -40,17 +47,63 @@ Meteor.methods({
 			email: emailAddress
 		});
 
-    console.log("Status ", status);
-
 		if ( status ) {
-			console.log("Email exists returning now");
 			return true;
 		} else {
-			console.log("Account doesn't exisits.");
 			return false;
 		}
   },
 
+  /**
+   *  Gets the users account confirmation token and encrypts it with the public key
+   *  - Meant to be decrytped by the private key associated with the account.
+   *  - If the users token is older than 24 hours, a new one is created
+   *
+   *  Input: Email Address (string)
+   *  Output: accountConfirmationToken (string)
+   **/
+  getUsersEncryptedConfirmationCode: function(emailAddress) {
+    check([emailAddress], [String]);
+
+    var senderAccount = EmailAccounts.findOne({
+      email: emailAddress
+    });
+
+    if ( !senderAccount ) {
+      throw new Meteor.Error("account-does-not-exists", "User account doesn't exists.");
+    }
+
+    lastUpdated = senderAccount.updated_at;
+
+    var time24HoursAgo = Math.round(new Date().getTime() / 1000); - (24 * 3600);
+    var confirmationCode;
+
+    // If code is older than 24 hours, creates a new code and replaces the old one
+    if ( lastUpdated.getTime() < time24HoursAgo ) {
+      confirmationCode = ShortId.generate();
+      EmailAccounts.update(
+        { email: emailAddress },
+        { $set: { accountConfirmationCode: confirmationCode } }
+      );
+    } else {
+      confirmationCode = senderAccount.accountConfirmationCode;
+    }
+
+    // Encrypts the confirmation code with the users public key
+    var RSA = Meteor.npmRequire( 'node-rsa' );
+    var publicKey = senderAccount.publicKey;
+
+    var publicEnc = new RSA(publicKey, 'pkcs8-public')
+    var encryptedConfirmationKey = publicEnc.encrypt(confirmationCode, 'base64');
+
+    return encryptedConfirmationKey;
+  },
+
+  /**
+   *  Gets the public key associated an email address
+   *  Input: Email Address (String)
+   *  Output: Public Key (String)
+   **/
   getUserPublicKey: function(emailAddress) {
   	check([emailAddress], [String]);
 
@@ -59,54 +112,48 @@ Meteor.methods({
   	});
 
   	if ( account ) {
-  		console.log( account );
   		return account.publicKey;
   	} else {
-  		// Ideally shoudn't happen
-  		return {
-  			error: "Unable to find public key"
-  		};
+      throw new Meteor.Error("account-does-not-exists", "User account doesn't exists.");
   	}
   },
 
-  saveEmailMessage: function(userEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage) {
-  	check([userEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage], [String]);
+  /**
+   *  Saves the encrypted email
+   *  - Compares the confirmation code sent from the client matches
+   *
+   *  Input: Email Address (String), encrytpedSenderEmail (String), encrytpedSubject (String),
+   *    encryptedMessage (String), confirmationCode (String)
+   *  Output: None
+  **/
+  saveEmailMessage: function(userEmail, senderEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage, confirmationCode) {
+  	check([userEmail, senderEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage, confirmationCode], [String]);
 
   	var account = EmailAccounts.findOne({
-  		email: userEmail
+  		email: senderEmail
   	});
 
-  	if ( account ) {
-  		var email = account.email;
+    if ( !account ) {
+      throw new Meteor.Error("account-does-not-exists", "User account doesn't exists.");
+    }
 
-  		var status = Messages.insert({
-  			userEmail: userEmail,
-  			senderEmail: encryptedSenderEmail,
-        subject: encryptedSubject,
-  			message: encryptedMessage
-  		});
+    var accountConfirmationCode = account.accountConfirmationCode;
+    if ( !(accountConfirmationCode == confirmationCode) ) {
+      throw new Meteor.Error("invalid-confirmation-code", "Confirmation code is invalid");
+    }
 
-  		if ( status ) {
-  			console.log("Message Saved");
-  			// return {
-  			// 	message: "Email Saved"
-  			// };
-				return true;
-  		} else {
-  			console.log("Unable to save message");
-  			// return {
-  			// 	error: "Unable to save message"
-  			// };
-				throw new Meteor.Error("error-saving", "Unable to save the message.");
-  		}
-  	} else {
-  		console.log("User doesn't exists");
-  		// return {
-  		// 	error: "User doesn't exists"
-  		// };
+		var email = account.email;
 
-			throw new Meteor.Error("does-not-exists", "User doesn't exists.");
-  	}
+		var status = Messages.insert({
+			userEmail: userEmail,
+			senderEmail: encryptedSenderEmail,
+      subject: encryptedSubject,
+			message: encryptedMessage
+		});
+
+		if ( !status ) {
+			throw new Meteor.Error("error-saving", "Unable to save the message.");
+		}
   },
 
   viewEmailMessages: function(userEmail) {

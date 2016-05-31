@@ -34,7 +34,32 @@ let EmailAccountsSchema = new SimpleSchema({
 		type: String,
 		label: "Unique id used for downloading private key",
 		unique: true,
-		optional: false 
+		optional: false
+	},
+	"accountConfirmationCode": {
+		type: String,
+		label: "Code used to verify if the message sender has an account",
+		optional: false,
+	},
+	"created_at": {
+		type: Date,
+		label: "Account Added to System",
+		autoValue: function() {
+			if ( this.isInsert ) {
+				return new Date;
+			}
+		}
+	},
+	"updated_at": {
+		type: Date,
+		label: "Account Updated in System",
+		autoValue: function() {
+			if ( this.isUpdate ) {
+				return new Date;
+			}
+		},
+		denyInsert: true,
+		optional: true
 	}
 });
 

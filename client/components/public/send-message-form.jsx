@@ -5,58 +5,73 @@ SendMessageForm = React.createClass({
     let senderEmail = $( '[name="senderEmail"]' ).val();
     let subject = $( '[name="subject"]' ).val();
     let message = $( '[name="message"]' ).val();
-
     let emailAddress = this.props.email;
 
-    Meteor.call("getUserPublicKey", emailAddress, function(err, publicKey) {
+    Meteor.call("getUsersEncryptedConfirmationCode", senderEmail, function(err, encryptedConfirmationCode) {
       if ( err ) {
-        Bert.alert("Unable to get the users public key", "danger");
-        return;
-      }
-
-      if ( !publicKey ) {
-        // Handle use case when user hasn't create a key pair yet
-        // console.log("Key doesn't exisits");
-        Bert.alert("Users public key doesn't exists", "danger");
-      }
-
-      var publicEnc = new RSA(publicKey, 'pkcs8-public');
-      let encryptedSenderEmail = publicEnc.encrypt(senderEmail, 'base64');
-      let encryptedSubject = publicEnc.encrypt(subject, 'base64');
-      let encryptedMessage = publicEnc.encrypt(message, 'base64');
-
-      // Private key has to be downloaded before you can send messages. - Cause no public key to encrypt
-
-      Meteor.call("saveEmailMessage", emailAddress, encryptedSenderEmail, encryptedSubject, encryptedMessage, function(err, result) {
-        if ( err ) {
-          if ( err.error == "error-saving" ) {
-            Bert.alert("Unable to send message.", "danger");
-            return;
-          }
-
-          if ( err.error == "does-not-exists" ) {
-            Bert.alert("User doesn't exists", "danger");
-            return;
-          }
-
-          Bert.alert("An error has occured", "danger");
+        if ( err.error == "account-does-not-exists" ) {
+          alert("Sender Email doesn't have an account.");
           return;
         }
 
-        if ( result ) {
+        alert("Unknown Error..");
+        return;
+      }
+
+      // Gets users private key from local storage
+      let privateKey = localStorage.getItem( "easyEncodingKey-"+senderEmail );
+
+      if ( !privateKey ) {
+        alert("Unable to find your private key. Did you enter the correct email address? Or do you have an account with us?");
+        return;
+      }
+
+      var key = new RSA();
+      key.importKey( privateKey, 'pkcs8' );
+      var decryptedMessage = key.decrypt( encryptedConfirmationCode, 'base64' );
+      validationToken = window.atob( decryptedMessage );
+
+      Meteor.call("getUserPublicKey", emailAddress, function(err, publicKey) {
+        if ( err ) {
+          if ( err.error == "account-does-not-exists" ) {
+            alert("Receiver Email doesn't have an account.");
+            return;
+          }
+
+          alert("An Error has occurred.");
+          return;
+        }
+
+        let encryptedSenderEmail, encryptedSubject, encryptedMessage;
+        try {
+          var publicEnc = new RSA(publicKey, 'pkcs8-public');
+          encryptedSenderEmail = publicEnc.encrypt(senderEmail, 'base64');
+          encryptedSubject = publicEnc.encrypt(subject, 'base64');
+          encryptedMessage = publicEnc.encrypt(message, 'base64');
+        } catch(err) {
+          // Need to handle this error.
+          alert("Unable to save message. Issue with the public key.");
+          return;
+        }
+
+        Meteor.call("saveEmailMessage", emailAddress, senderEmail, encryptedSenderEmail, encryptedSubject, encryptedMessage, validationToken, function(err) {
+          if ( err ) {
+            if ( err.error ) {
+              alert(err.message);
+              return;
+            }
+            alert("Unknown Error");
+          }
+
           Bert.alert("Message Sent", "success");
+
           // Clearing input
           $( '[name="senderEmail"]' ).val("");
           $( '[name="subject"]' ).val("");
           $( '[name="message"]' ).val("");
-        } else {
-          // Unable to send email
-          Bert.alert("Unable to send email message", "danger");
-        }
-
+        });
       });
     });
-
   },
   render() {
     return (
@@ -82,7 +97,7 @@ SendMessageForm = React.createClass({
             <label htmlFor="message"> Message &nbsp;</label>
             <textarea className="form-control" name="message" rows="15" placeholder="Enter Message Here" />
           </div>
-          <button type="submit" className="btn btn-success pull-right">Submit</button>
+          <button type="submit" className="btn btn-success pull-right">Send</button>
         </form>
       </div>
     );
