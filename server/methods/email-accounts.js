@@ -9,7 +9,6 @@ Meteor.methods({
 		});
 
 		if ( status ) {
-			console.log("Email exists returning now");
 			return { emailAlreadyExists: true };
 		} else {
 			var uniqueId = ShortId.generate();

@@ -1,4 +1,23 @@
 SendMessageForm = React.createClass({
+  componentDidMount: function() {
+    // Automatically gets sender email address from local storage
+    let privateKey = "";
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      if ( localStorage.key( i ).includes("easyEncodingKey") ) {
+        privateKey = localStorage.key( i );
+        break;
+      }
+    }
+
+    if ( privateKey ) {
+      const parts = privateKey.split('-');
+      const senderEmail = parts.pop();
+      $( '[name="senderEmail"]' ).val(senderEmail);
+
+      Bert.alert( 'Sender Email Address Found!', 'info', 'growl-top-right' );
+    }
+  },
+
   handleSubmit( event ) {
     event.preventDefault();
 
@@ -7,10 +26,14 @@ SendMessageForm = React.createClass({
     let message = $( '[name="message"]' ).val();
     let emailAddress = this.props.email;
 
+    // Disable form and button
+    $("#sendMessageBtn").button("loading");
+
     Meteor.call("getUsersEncryptedConfirmationCode", senderEmail, function(err, encryptedConfirmationCode) {
       if ( err ) {
         if ( err.error == "account-does-not-exists" ) {
           alert("Sender Email doesn't have an account.");
+          $("#sendMessageBtn").button("reset");
           return;
         }
 
@@ -35,6 +58,7 @@ SendMessageForm = React.createClass({
         if ( err ) {
           if ( err.error == "account-does-not-exists" ) {
             alert("Receiver Email doesn't have an account.");
+            $("#sendMessageBtn").button("reset");
             return;
           }
 
@@ -50,6 +74,7 @@ SendMessageForm = React.createClass({
           encryptedMessage = publicEnc.encrypt(message, 'base64');
         } catch(err) {
           // Need to handle this error.
+          $("#sendMessageBtn").button("reset");
           alert("Unable to save message. Issue with the public key.");
           return;
         }
@@ -58,6 +83,7 @@ SendMessageForm = React.createClass({
           if ( err ) {
             if ( err.error ) {
               alert(err.message);
+              $("#sendMessageBtn").button("reset");
               return;
             }
             alert("Unknown Error");
@@ -65,10 +91,11 @@ SendMessageForm = React.createClass({
 
           Bert.alert("Message Sent", "success");
 
-          // Clearing input
-          $( '[name="senderEmail"]' ).val("");
+          // Clearing input after sending message
           $( '[name="subject"]' ).val("");
           $( '[name="message"]' ).val("");
+
+          $("#sendMessageBtn").button("reset");
         });
       });
     });
@@ -76,10 +103,10 @@ SendMessageForm = React.createClass({
   render() {
     return (
       <div className="container">
-      	<h2>Send Message</h2>
+      	<h2>Send Message to {this.props.email} </h2>
         <form id="sendMessage" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="Email">Email Address &nbsp;</label>
+            <label htmlFor="Email">From: (Email Address) &nbsp;</label>
             <input
               type="text"
               name="senderEmail"
@@ -97,7 +124,7 @@ SendMessageForm = React.createClass({
             <label htmlFor="message"> Message &nbsp;</label>
             <textarea className="form-control" name="message" rows="15" placeholder="Enter Message Here" />
           </div>
-          <button type="submit" className="btn btn-success pull-right">Send</button>
+          <button type="submit" id="sendMessageBtn" className="btn btn-success pull-right" data-loading-text="Sending...">Send</button>
         </form>
       </div>
     );
