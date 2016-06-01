@@ -10,7 +10,7 @@ Welcome = React.createClass({
 		  	<div className="jumbotron">
     			<div className="row">
 	    			<div className="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 text-center">
-		    		  <h2>A simple way to send encrypted messages</h2>
+		    		  <h2>Simplest way to send encrypted messages</h2>
 							<CreateAccountForm />
 		    		</div>
 		    	</div>

@@ -1,36 +1,47 @@
-// In your server code: define a method that the client can call
 Meteor.methods({
+  /**
+   *  Creates an account using a users email address
+   *  - Checks if the account already exists. If it does, throws an error
+   *  - After account creation, sends a email with a link for user to download their private key
+   *
+   *  Input: Email Address
+   *  Output: None
+   **/
  createEmailAccount: function (emailAddress) {
 		check([emailAddress], [String]);
 
-		// Returns document if it is found else nothing
 		var status = EmailAccounts.findOne({
 			email: emailAddress
 		});
 
+    // If account already exists, throws an error to the client
 		if ( status ) {
-			return { emailAlreadyExists: true };
-		} else {
-			var uniqueId = ShortId.generate();
-      var confirmationCode = ShortId.generate();
-
-			EmailAccounts.insert({
-				email: emailAddress,
-				isPrivateKeyDownloaded: false,
-				urlId: uniqueId,
-        accountConfirmationCode: confirmationCode
-			});
-
-			var emailMessage = "Click the link to install your private key into your browser local storage. http://easyencryption.meteor.com/install-key/"+uniqueId+" Cheers, Easy Encryption";
-
-			Email.send({
-				to: emailAddress,
-				from: "easyencryption",
-				subject: "Easy Encryption - Private Key Download",
-				text: emailMessage
-    	});
-			return { emailAlreadyExists: false };
+      throw new Meteor.Error("account-already-exists", "Email address already has an account associated with it.");
 		}
+
+    // uniqueId is for the private key download link
+		var uniqueId = ShortId.generate();
+
+    // Used for verification when sending messages
+    var confirmationCode = ShortId.generate();
+
+		EmailAccounts.insert({
+			email: emailAddress,
+			isPrivateKeyDownloaded: false,
+			urlId: uniqueId,
+      accountConfirmationCode: confirmationCode
+		});
+
+    // Split this into another function? Sends email with link to download public key
+		var emailMessage = "Click the link to install your private key into your browser local storage. http://easyencryption.meteor.com/install-key/"+uniqueId+" Cheers, Easy Encryption";
+
+		Email.send({
+			to: emailAddress,
+			from: "easyencryption",
+			subject: "Easy Encryption - Private Key Download",
+			text: emailMessage
+  	});
+		return ;
   },
 
   /**
