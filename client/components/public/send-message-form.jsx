@@ -37,7 +37,14 @@ SendMessageForm = React.createClass({
           return;
         }
 
+        if ( err.error == "keys-were-not-generated" ) {
+          alert("User " + senderEmail + " did not generate their private/public keys yet! Check your email");
+          $("#sendMessageBtn").button("reset");
+          return ;
+        }
+
         alert("Unknown Error..");
+        $("#sendMessageBtn").button("reset");
         return;
       }
 

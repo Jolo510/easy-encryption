@@ -83,6 +83,10 @@ Meteor.methods({
       throw new Meteor.Error("account-does-not-exists", "User account doesn't exists.");
     }
 
+    if ( !senderAccount.publicKey ) {
+      throw new Meteor.Error("keys-were-not-generated", "Sender account has not generated their private/public keys yet.");
+    }
+
     lastUpdated = senderAccount.updated_at;
 
     var time24HoursAgo = Math.round(new Date().getTime() / 1000); - (24 * 3600);

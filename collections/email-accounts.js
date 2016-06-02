@@ -26,15 +26,15 @@ let EmailAccountsSchema = new SimpleSchema({
 		label: "Users public key used for encrypting messages",
 		optional: true
 	},
-	"isPrivateKeyDownloaded": {
-		type: Boolean,
-		label: "Download status of the private key"
-	},
+	// "isPrivateKeyDownloaded": {
+	// 	type: Boolean,
+	// 	label: "Download status of the private key"
+	// },
 	"urlId": {
 		type: String,
 		label: "Unique id used for downloading private key",
 		unique: true,
-		optional: false
+		optional: true
 	},
 	"accountConfirmationCode": {
 		type: String,

@@ -4,6 +4,7 @@ InstallPrivateKey = React.createClass({
     token: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired
   },
+
   doesBrowserSupportLocalStorage() {
     if ( typeof(Storage) !== "undefined" ) {
       return <span className="label label-success">Browser Supported!</span>
@@ -11,89 +12,57 @@ InstallPrivateKey = React.createClass({
       return <span className="label label-danger">Browser Not Supported!</span>
     }
   },
+
   downloadPrivateKey( event ) {
     // Checking if web broswer supports local storage
-    if ( typeof(Storage) !== "undefined" ) {
-      const rsa = new RSA({b: 512});
-      const token = this.props.token;
-      const emailAddress = this.props.email;
+    if (typeof(Storage) == "undefined") {
+      Bert.alert( "Sorry, we don't support your browser. Please use another.", "danger");
+      return ;
+    }
 
-      // Generate private/public key pair
-      const key = rsa.generateKeyPair();
-      // Saving private key to the browser
-      const privateKey = key.exportKey("pkcs8");
-      const publicKey = key.exportKey("pkcs8-public");
+    const rsa = new RSA({b: 512});
+    const token = this.props.token;
+    const emailAddress = this.props.email;
 
-      // setItem(keyName, keyValue) when passed a key name and value, will add that key to the storage
-      // or update that key's value if it already exists
-      /* Issue 
-        - Check for overriding the private key? 
-        - How do I know for sure it saved? Since setItem returns no value
-      */
-      localStorage.setItem("easyEncodingKey-" + emailAddress, privateKey);
+    // Generate private/public key pair
+    const key = rsa.generateKeyPair();
 
-      const savedPrivateKey = localStorage.getItem("easyEncodingKey-" + emailAddress);
+    // Saving private key to the browser
+    const privateKey = key.exportKey("pkcs8");
+    const publicKey = key.exportKey("pkcs8-public");
+    localStorage.setItem("easyEncodingKey-" + emailAddress, privateKey);
 
-      // If exists save.
-      /* Issue 
-        - Grabbing from local storage after saving there, security issue?
-      */
-      if ( savedPrivateKey ) {
-        // Setting download status of private key to true
-        /* Issue
-          Do I need to authenticate to call this function?
-          Combine the two functions - dependent on each other
-            - Setting private key status
-            - Saving public key
-        */
-        Meteor.call("setPrivateKeyStatus", token, true, function(err, result) {
-          if ( err ) {
-            // Need to display proper message to user
-            console.log("Unable to save private key");
+    const savedPrivateKey = localStorage.getItem("easyEncodingKey-" + emailAddress);
+
+    if ( savedPrivateKey ) {
+      Meteor.call("savePublicKey", token, publicKey, function(err) {
+        if ( err ) {
+          if ( err.error == "account-does-not-exists") {
+            Bert.alert("Account doesn't exists");
+            // Redirect to homepage?
             return;
           }
 
-          if ( result.saveSuccessful ) {
-            // Save public key
-            Meteor.call("savePublicKey", token, publicKey, function( err, result ) {
-              if (err) {
-                // Unable to save public key
-                console.log("Unable to save public key");
-                return;
-              }
-
-              if ( result.saveSuccessful ) {
-                // Saving public key complele
-                console.log("Public key saved!");
-              } else {
-                // Save unsucessful
-                console.log(result.message);
-                return;
-              }
-            });
-          } else {
-            // Either unable to save private key or unable to find user account
-            // Translate message to user
-            console.log("Error : " + result.message);
+          if ( err.error == "unable-to-remove-token" ) {
+            Bert.alert("An error has occured.");
+            return;
           }
-        });
-      } else {
-        // Issue private key to local storage
-        // Need to display proper message to user
-        console.log("Issue with saving private key to local storage");
-        return;
-      }
-    } else {
-      // Doesn't support local storage, can't install private key
-      console.log("Your browser doesn't support local storage");
 
-      return;
+          if ( err.error == "unable-to-save" ) {
+            Bert.alert("Unable to save public key");
+            return;
+          }
+        }
+      });
     }
   },
   render() {
     return (
     	<div className="container">
-        <h3>Download your private key for this computer and browser</h3>
+        <h3>Are you sure you want to use this Computer and web browser?</h3>
+        <p>
+          Once you install your private key, you can ONLY send/view your messages from this computer and web browser.
+        </p>
         {this.doesBrowserSupportLocalStorage()} <br />
         <button className="btn btn-default" onClick={this.downloadPrivateKey}>
           Download Private Key
