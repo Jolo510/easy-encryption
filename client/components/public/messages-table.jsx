@@ -4,7 +4,6 @@ MessagesTable = React.createClass({
 		let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.message.userEmail );
 		let senderEmail = this.props.message.senderEmail;
 
-		console.log("Sender Email", senderEmail);
 		// Sender Email is required
 		if (!senderEmail) {
 			return "";
@@ -66,9 +65,13 @@ MessagesTable = React.createClass({
 		}
 
 	},
+	timeSent() {
+		console.log( this.props.message.created_at );
+	},
   render() {
   	return (
   		<div className="container">
+  			{ this.timeSent() }
   			<br />
   			<div>
   				<b>Sender :</b> { this.senderEmail() }

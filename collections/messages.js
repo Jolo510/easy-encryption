@@ -23,9 +23,7 @@ let MessagesSchema = new SimpleSchema({
 	"senderEmail": {
 		type: String,
 		label: "Email of the sender of the messages",
-		// regEx: SimpleSchema.RegEx.Email,
-		optional: false,
-		// max: 50
+		optional: false
 	},
 	"subject": {
 		type: String,
@@ -36,6 +34,15 @@ let MessagesSchema = new SimpleSchema({
 		type: String,
 		label: "Encrypted Messaged from sender",
 		optional: true
+	},
+	"created_at": {
+		type: Date,
+		label: "Account Added to System",
+		autoValue: function() {
+			if ( this.isInsert ) {
+				return new Date;
+			}
+		}
 	}
 });
 
