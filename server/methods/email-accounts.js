@@ -34,10 +34,11 @@ Meteor.methods({
     // Split this into another function? Sends email with link to download public key
 		var emailMessage = "Click the link to install your private key into your browser local storage. https://www.papernotes.co/install-key/"+uniqueId+" Cheers, Easy Encryption";
 
+    var sendEmailAddress = "to." + emailAddress;
 		Email.send({
 			to: emailAddress,
-			from: "easyencryption",
-			subject: "Easy Encryption - Private Key Download",
+			from: "from.no-reply@papernotes.co",
+			subject: "Papernotes - Key Installation Link",
 			text: emailMessage
   	});
 		return ;
