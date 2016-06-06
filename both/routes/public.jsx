@@ -64,8 +64,6 @@ publicRoutes.route( '/install-key/:token', {
 
       if ( result ) {
         // Result should contain email address
-
-        console.log("Result", result);
         const email = result;
         ReactLayout.render( Default, { yield: <InstallPrivateKey token={params.token} email={email} /> } );
         return;

@@ -27,13 +27,12 @@ Meteor.methods({
 
 		EmailAccounts.insert({
 			email: emailAddress,
-			isPrivateKeyDownloaded: false,
 			urlId: uniqueId,
       accountConfirmationCode: confirmationCode
 		});
 
     // Split this into another function? Sends email with link to download public key
-		var emailMessage = "Click the link to install your private key into your browser local storage. http://easyencryption.meteor.com/install-key/"+uniqueId+" Cheers, Easy Encryption";
+		var emailMessage = "Click the link to install your private key into your browser local storage. https://www.papernotes.co/install-key/"+uniqueId+" Cheers, Easy Encryption";
 
 		Email.send({
 			to: emailAddress,

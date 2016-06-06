@@ -17,7 +17,7 @@ Meteor.methods({
 		});
 
 		if ( user ) {
-			if ( user.isPrivateKeyDownloaded ) {
+			if ( !user.urlId ) {
 				throw new Meteor.Error("download-denied", "Private key for this user has already been downloaded.");
 			} else {
 				return user.email;
