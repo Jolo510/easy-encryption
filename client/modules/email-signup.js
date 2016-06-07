@@ -29,8 +29,6 @@ let _handleEmailSignup = () => {
     email: $( '[name="emailAddress"]' ).val()
   };
 
-  Bert.alert( 'Welcome!' , 'success' );
-
   // Make call to DB to create user if no error or if email doesn't already exisits
   Meteor.call("createEmailAccount", user.email, function(err, result) {
   	if (err) {

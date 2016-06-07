@@ -53,6 +53,8 @@ InstallPrivateKey = React.createClass({
             return;
           }
         }
+
+        Bert.alert("Private key installed!");
       });
     }
   },
