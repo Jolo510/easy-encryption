@@ -1,4 +1,4 @@
-MessagesTable = React.createClass({
+ListMessages = React.createClass({
 	senderEmail() {
 		// Refactor getting the private key and decrpting. DRY..
 		let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.message.userEmail );
@@ -42,53 +42,25 @@ MessagesTable = React.createClass({
 			return subject;
 		}
 	},
-	message() {
-		// Get private Key
-		let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.message.userEmail );
-		var message = this.props.message.message;
-
-		// Check if message exists since its opotional
-		if (!message) {
-			return "";
-		}
-
-		if (privateKey) {
-			var key = new RSA();
-
-			key.importKey( privateKey, 'pkcs8' );
-
-			var decryptedMessage = key.decrypt( message, 'base64' );
-
-			return window.atob( decryptedMessage );
-		} else {
-			return message;
-		}
-
-	},
 	timeSent() {
 		var time = this.props.message.created_at;
 		var date = time.getMonth() + "/" + time.getDay() + "/" + time.getFullYear();
-
-		console.log("Date", date);
 		console.log(time.getHours() + " " + time.getMinutes() + " " + time.getSeconds() );
 		return date;
 	},
+	handleClick() {
+		const userEmail = this.props.message.userEmail,
+					messageId = this.props.message._id;
+
+		FlowRouter.go('/view/' + userEmail + '/' + messageId);
+	},
   render() {
   	return (
-  		<div className="container">
-  			{ this.timeSent() }
-  			<br />
-  			<div>
-  				<b>Sender :</b> { this.senderEmail() }
-  			</div>
-  			<div>
-  				<b>Subject :</b> { this.subject() }
-  			</div>
-  			<div>
-  				<br />
-  				<b>Message</b> <br /> <span style={{width: '100px'}}>{ this.message() }</span>
-  			</div>
-  		</div>
+			<tr onClick={ this.handleClick } >
+				<td>{ this.senderEmail() }</td>
+				<td>{ this.subject() }</td>
+				<td>{ this.timeSent() }</td>
+			</tr>
   	);
   }
 });

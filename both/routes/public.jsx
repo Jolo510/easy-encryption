@@ -141,6 +141,16 @@ publicRoutes.route( '/view/:email', {
   }
 });
 
+publicRoutes.route( '/view/:email/:message_id', {
+  name:'view-individual-message',
+  action: function( params ) {
+    var email = params.email,
+        messageId = params.message_id;
+
+    ReactLayout.render( Default, { yield: <SingleMessage email={email} messageId={messageId} /> } );
+  }
+});
+
 // publicRoutes.route( '/view/:email', {
 //   name: 'view encrypted messages',
 //   action: function(params) {

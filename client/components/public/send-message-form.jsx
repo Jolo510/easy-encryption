@@ -112,7 +112,7 @@ SendMessageForm = React.createClass({
   render() {
     return (
       <div className="container">
-      	<h2>Send Message to {this.props.email} </h2>
+      	<h3>Send Message - {this.props.email} </h3>
         <form id="sendMessage" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="Email">From: (Email Address) &nbsp;</label>

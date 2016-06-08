@@ -38,7 +38,7 @@ InstallPrivateKey = React.createClass({
       Meteor.call("savePublicKey", token, publicKey, function(err) {
         if ( err ) {
           if ( err.error == "account-does-not-exists") {
-            Bert.alert("Account doesn't exists");
+            Bert.alert("Private key has already been installed or account doesn't exists.", "warning");
             // Redirect to homepage?
             return;
           }
@@ -54,7 +54,7 @@ InstallPrivateKey = React.createClass({
           }
         }
 
-        Bert.alert("Private key installed!");
+        Bert.alert("Private key installed!", "success");
       });
     }
   },

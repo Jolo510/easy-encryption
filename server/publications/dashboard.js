@@ -2,7 +2,7 @@ Meteor.publish( 'dashboard', function() {
   return People.find();
 });
 
-Meteor.publish( 'messages', function(emailAddress) {
+Meteor.publish( 'messages', function( emailAddress ) {
 	check( emailAddress, String );
-	return Messages.find( {userEmail: emailAddress} ) ;
-})
+	return Messages.find( { userEmail: emailAddress} ) ;
+});
