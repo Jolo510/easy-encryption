@@ -31,16 +31,29 @@ Meteor.methods({
       accountConfirmationCode: confirmationCode
 		});
 
-    // Split this into another function? Sends email with link to download public key
-		var emailMessage = "Click the link to install your private key into your browser local storage. https://www.papernotes.co/install-key/"+uniqueId+" Cheers, Easy Encryption";
+    SSR.compileTemplate( 'htmlEmail', Assets.getText( 'install-private-key-email.html' ) );
 
-    var sendEmailAddress = "to." + emailAddress;
-		Email.send({
-			to: emailAddress,
-			from: "from.no-reply@papernotes.co",
-			subject: "Papernotes - Key Installation Link",
-			text: emailMessage
-  	});
+    var emailData = {
+      uniqueToken: uniqueId,
+      userEmail: emailAddress
+    };
+
+    Email.send({
+      to: emailAddress,
+      from: "no-reply@papernotes.co",
+      subject: "Papernotes - Welcome!",
+      html: SSR.render( 'htmlEmail', emailData )
+    });
+
+    // Split this into another function? Sends email with link to download public key
+    // var emailMessage = "Click the link to install your private key into your browser local storage. https://www.papernotes.co/install-key/"+uniqueId+" Cheers, Easy Encryption";
+
+		// Email.send({
+		// 	to: emailAddress,
+		// 	from: "no-reply@papernotes.co",
+		// 	subject: "Papernotes - Key Installation Link",
+		// 	text: emailMessage
+    // });
 		return ;
   },
 

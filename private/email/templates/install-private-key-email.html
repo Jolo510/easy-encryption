@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Install Private Key Email</title>
+    <link href="styles.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+
+  <body itemscope itemtype="http://schema.org/EmailMessage">
+    <div class="container">
+      <h3 class="text-center">Welcome to Papernotes!</h3>
+      <p>
+        Thank for creating an account with us! Get started in 3 easy steps.
+      </p>
+      <div class="row">
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>Pick your platform</h3>
+            </div>
+
+            <img src="" style="border-radius: 5px;" height="200" width="200">
+            <div class="caption">
+              <p>
+                Choose a computer and browser that you would want to <b>view/send</b> your messages from. <br><br>
+                Note: you can only use papernotes from the choice you have made.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>Install your Key</h3>
+            </div>
+            <img src="" style="border-radius: 5px;" height="200" width="200">
+            <div class="caption">
+              <p>
+                Open this email in the setup you have chosen and visit this link below. <br><br>
+                <a href="https://www.papernotes.co/install-key/{{uniqueToken}}">
+                  Click here to install your key
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>Share your send link!</h3>
+            </div>
+            <img src="" style="border-radius: 5px;" height="200" width="200">
+            <div class="caption">
+              <p>
+                To view your messages visit <br>
+                <a href="https://www.papernotes.co/view/{{userEmail}}">
+                  https://www.papernotes.co/view/{{userEmail}}
+                </a>
+                <br><br>
+                For people to send you messages, send them this link!<br>
+                <a href="https://www.papernotes.co/send/{{userEmail}}">
+                  https://www.papernotes.co/send/{{userEmail}}
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      Cheers, <br>
+      Papernotes
+    </div>
+  </body>
+</html>
