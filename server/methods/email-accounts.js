@@ -25,18 +25,24 @@ Meteor.methods({
     // Used for verification when sending messages
     var confirmationCode = ShortId.generate();
 
+    // **Note. Add code to validate creation of the account
 		EmailAccounts.insert({
 			email: emailAddress,
 			urlId: uniqueId,
       accountConfirmationCode: confirmationCode
 		});
 
-    SSR.compileTemplate( 'htmlEmail', Assets.getText( 'install-private-key-email.html' ) );
+    SSR.compileTemplate( 'htmlEmail', AppAssets.getText( 'email/templates/install-private-key-email.html' ) );
 
     var emailData = {
       uniqueToken: uniqueId,
       userEmail: emailAddress
     };
+
+    check( emailData, {
+      uniqueToken: String,
+      userEmail: String
+    });
 
     Email.send({
       to: emailAddress,
@@ -193,3 +199,6 @@ Meteor.methods({
 		return messages;
   }
 });
+
+// Making assets global.. (Get back to this later..)
+AppAssets = Assets;

@@ -23,7 +23,6 @@ kadira:flow-router
 accounts-base
 accounts-password
 aldeed:collection2
-audit-argument-checks
 browser-policy
 check
 digilord:faker
