@@ -55,20 +55,32 @@ InstallPrivateKey = React.createClass({
         }
 
         Bert.alert("Private key installed!", "success");
+
+        FlowRouter.go("/view/"+emailAddress);
       });
     }
   },
   render() {
     return (
     	<div className="container">
-        <h3>Are you sure you want to use this Computer and web browser?</h3>
-        <p>
-          Once you install your private key, you can ONLY send/view your messages from this computer and web browser.
-        </p>
-        {this.doesBrowserSupportLocalStorage()} <br />
-        <button className="btn btn-default" onClick={this.downloadPrivateKey}>
-          Download Private Key
-        </button>
+        <div>
+          <h3>
+            Are you sure you want to use this computer and web browser?
+            <span className="pull-right">
+              {this.doesBrowserSupportLocalStorage()}
+            </span>
+          </h3>
+        </div>
+        <div>
+          <p>
+            Once you install your private key, you can ONLY send/view your messages from this computer and web browser.
+          </p>
+        </div>
+        <div>
+          <button className="btn btn-default text-center" data-loading-text="Installing..." onClick={this.downloadPrivateKey}>
+            Download Private Key
+          </button>
+        </div>
     	</div>
     );
   }

@@ -69,8 +69,6 @@ MessagesTable = React.createClass({
 		var time = this.props.message.created_at;
 		var date = time.getMonth() + "/" + time.getDay() + "/" + time.getFullYear();
 
-		console.log("Date", date);
-		console.log(time.getHours() + " " + time.getMinutes() + " " + time.getSeconds() );
 		return date;
 	},
   render() {

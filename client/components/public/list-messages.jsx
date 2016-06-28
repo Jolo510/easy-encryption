@@ -45,7 +45,7 @@ ListMessages = React.createClass({
 	timeSent() {
 		var time = this.props.message.created_at;
 		var date = time.getMonth() + "/" + time.getDay() + "/" + time.getFullYear();
-		console.log(time.getHours() + " " + time.getMinutes() + " " + time.getSeconds() );
+
 		return date;
 	},
 	handleClick() {

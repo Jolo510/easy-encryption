@@ -27,9 +27,11 @@ CreateAccountForm = React.createClass({
 								name="emailAddress"
 				    		className="form-control"
 				    		style={inputStyle}
-				    		placeholder="Email Address" />
+				    		placeholder="Email Address"
+				    		tabIndex="1"
+				    	/>
 						  <span className="input-group-btn">
-								<button type="submit" className="btn btn-success">Submit</button>
+								<button type="submit" className="btn btn-success" tabIndex="2">Submit</button>
 						  </span>
 				    </div>
 				  </div>

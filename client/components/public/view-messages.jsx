@@ -6,9 +6,30 @@ ViewMessagesLoader = React.createClass({
 
     return {
       messagesLoading: ! handle.ready(),
-      messages: Messages.find({ userEmail: emailAddress}, {sort: { "created_at": -1 } }).fetch()
+      messages: Messages.find({ userEmail: emailAddress}, {sort: { "created_at": -1 } }).fetch(),
     };
   },
+  // **Should make this into its own component
+  sendMessageForm( event ) {
+    event.preventDefault();
+
+    // Check if user exists
+    const sendToEmailAddress = $( '[name="sendToEmailAddress"]' ).val();
+
+    // If not display error message
+    Meteor.call("checkIfAccountExists", sendToEmailAddress, function(err, doesUserExists) {
+      if (err) {
+        Bert.alert("An Error has occured", "danger");
+      }
+
+      if ( doesUserExists ) {
+        FlowRouter.go("/send/"+sendToEmailAddress);
+      } else {
+        Bert.alert("User does not exists", "danger");
+      }
+    });
+  },
+
   render() {
     // Shows loading
     if (this.data.messagesLoading) {
@@ -21,8 +42,29 @@ ViewMessagesLoader = React.createClass({
     //
     return (
       <div className="container">
+        <br />
+        <form className="form-inline">
+          <div className="form-group">
+            <label htmlFor="sendToEmailAddressForm">Access Users Message Form:&nbsp;</label>
+            <input
+              type="email"
+              name="sendToEmailAddress"
+              className="form-control"
+              placeholder="JohnDoe@gmail.com"
+              tabIndex="1"
+            />
+          </div>
+          <button type="submit" className="btn btn-default" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
+        </form>
         <table className="table table-hover border">
-          <caption>Messages for { this.props.email } </caption>
+          <caption>
+            Messages for { this.props.email }
+            <span className="pull-right">
+              <a href="https://www.papernotes.co/send/{this.props.email}">
+                www.papernotes.co/send/{this.props.email}
+              </a>
+            </span>
+          </caption>
           <thead>
             <tr>
               <th>Sent From</th>
