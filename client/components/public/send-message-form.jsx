@@ -18,10 +18,32 @@ SendMessageForm = React.createClass({
     }
   },
 
+  usersEmailAddress: function() {
+    let emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
+    let senderEmail;
+
+    if ( Array.isArray(emailsArray) && emailsArray.length > 0) {
+      senderEmail = emailsArray[0];
+      return  senderEmail;
+    } else {
+      return <div>Unable to find an account. You need one to send messages.&nbsp;<a href="https://www.papernotes.co">Create one here</a></div>;
+    }
+  },
+
   handleSubmit( event ) {
     event.preventDefault();
 
-    let senderEmail = $( '[name="senderEmail"]' ).val();
+    // Right now, only supporting single email account per browser. So grab the first value
+    let emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
+    let senderEmail;
+
+    if ( Array.isArray(emailsArray) && emailsArray.length > 0) {
+      senderEmail = emailsArray[0];
+    } else {
+      Bert.alert("Create an account to send messages.", "danger");
+      return ;
+    }
+
     let subject = $( '[name="subject"]' ).val();
     let message = $( '[name="message"]' ).val();
     let emailAddress = this.props.email;
@@ -115,14 +137,9 @@ SendMessageForm = React.createClass({
       	<h3>Send Message - {this.props.email} </h3>
         <form id="sendMessage" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="Email">From: (Email Address) &nbsp;</label>
-            <input
-              type="text"
-              name="senderEmail"
-              className="form-control"
-              placeholder="Sender Email Address "
-              required />
-
+            <label htmlFor="Email">Your Email Address &nbsp;</label>
+            { this.usersEmailAddress() }
+            <br />
             <label htmlFor="subject">Subject &nbsp;</label>
             <input
               type="text"
