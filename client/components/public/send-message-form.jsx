@@ -82,7 +82,6 @@ SendMessageForm = React.createClass({
       key.importKey( privateKey, 'pkcs8' );
       var decryptedMessage = key.decrypt( encryptedConfirmationCode, 'base64' );
 
-      console.log("Decrypted Code", decryptedMessage);
       validationToken = window.atob( decryptedMessage );
 
       Meteor.call("getUserPublicKey", emailAddress, function(err, publicKey) {

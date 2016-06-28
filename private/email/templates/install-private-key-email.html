@@ -1,73 +1,270 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Install Private Key Email</title>
-    <link href="_email-styles.css" media="all" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        /* CLIENT-SPECIFIC STYLES */
+        body, table, td, a{-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+        table, td{mso-table-lspace: 0pt; mso-table-rspace: 0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+        img{-ms-interpolation-mode: bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+        /* RESET STYLES */
+        img{border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
+        table{border-collapse: collapse !important;}
+        body{height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;}
+
+        /* iOS BLUE LINKS */
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* MOBILE STYLES */
+        @media screen and (max-width: 525px) {
+
+            /* ALLOWS FOR FLUID TABLES */
+            .wrapper {
+              width: 100% !important;
+              max-width: 100% !important;
+            }
+
+            /* ADJUSTS LAYOUT OF LOGO IMAGE */
+            .logo img {
+              margin: 0 auto !important;
+            }
+
+            /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+            .mobile-hide {
+              display: none !important;
+            }
+
+            .img-max {
+              max-width: 100% !important;
+              width: 100% !important;
+              height: auto !important;
+            }
+
+            /* FULL-WIDTH TABLES */
+            .responsive-table {
+              width: 100% !important;
+            }
+
+            /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+            .padding {
+              padding: 10px 5% 15px 5% !important;
+            }
+
+            .padding-meta {
+              padding: 30px 5% 0px 5% !important;
+              text-align: center;
+            }
+
+            .no-padding {
+              padding: 0 !important;
+            }
+
+            .section-padding {
+              padding: 50px 15px 50px 15px !important;
+            }
+
+            /* ADJUST BUTTONS ON MOBILE */
+            .mobile-button-container {
+                margin: 0 auto;
+                width: 100% !important;
+            }
+
+            .mobile-button {
+                padding: 15px !important;
+                border: 0 !important;
+                font-size: 16px !important;
+                display: block !important;
+            }
+
+        }
+
+        /* ANDROID CENTER FIX */
+        div[style*="margin: 16px 0;"] { margin: 0 !important; }
+    </style>
+
   </head>
 
   <body itemscope itemtype="http://schema.org/EmailMessage">
-    <div>
-      <h3 class="center-text">Welcome to Papernotes!</h3>
+    <div style="text-align:center;">
+      <h3 style="text-align: center;">Welcome to Papernotes!</h3>
       <p>
         Thank for creating an account with us! Get started in 3 easy steps.
       </p>
-      <div class="row">
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <div class="caption purple">
-              <h3>Pick your platform</h3>
-            </div>
 
-            <img src="" style="border-radius: 5px;" height="200" width="200">
-            <div class="caption">
-              <p>
-                Choose a computer and browser that you would want to <b>view/send</b> your messages from. <br><br>
-                Note: you can only use papernotes from the choice you have made.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <div class="caption">
-              <h3>Install your Key</h3>
-            </div>
-            <img src="" style="border-radius: 5px;" height="200" width="200">
-            <div class="caption">
-              <p>
-                Open this email in the setup you have chosen and visit this link below. <br><br>
-                <a href="https://www.papernotes.co/install-key/{{uniqueToken}}">
-                  Click here to install your key
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <div class="caption">
-              <h3>Share your send link!</h3>
-            </div>
-            <img src="" style="border-radius: 5px;" height="200" width="200">
-            <div class="caption">
-              <p>
-                To view your messages visit <br>
-                <a href="https://www.papernotes.co/view/{{userEmail}}">
-                  https://www.papernotes.co/view/{{userEmail}}
-                </a>
-                <br><br>
-                For people to send you messages, send them this link!<br>
-                <a href="https://www.papernotes.co/send/{{userEmail}}">
-                  https://www.papernotes.co/send/{{userEmail}}
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      Cheers, <br>
-      Papernotes
     </div>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td bgcolor="#F5F7FA" align="center" style="padding: 70px 15px 70px 15px;" class="section-padding">
+          <!--[if (gte mso 9)|(IE)]>
+          <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+          <tr>
+          <td align="center" valign="top" width="500">
+          <![endif]-->
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+            <!-- How to get started-->
+            <tr>
+              <td>
+                <!-- TITLE SECTION AND COPY -->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;" class="padding">
+                      How to get started
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                      Follow the steps below to get started
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" height="100%" valign="top" width="100%">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+                <tr>
+                <td align="center" valign="top" width="500">
+                <![endif]-->
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;">
+                  <tr>
+                    <td align="center" valign="top" style="font-size:0;" class="padding">
+                      <!--[if (gte mso 9)|(IE)]>
+                      <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+                      <tr>
+                      <td align="left" valign="top" width="240">
+                      <![endif]-->
+                      <div style="display:inline-block; margin: 0 -2px; max-width:50%; min-width:240px; vertical-align:top; width:100%;" class="wrapper">
+                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:240px;" class="wrapper">
+                          <tr>
+                            <td align="center" valign="top">
+                              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                  <td style="padding: 20px 0 30px 0;">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                      <tr>
+                                        <td align="center" style="padding: 15px 0 0 0; font-family: Arial, sans-serif; color: #333333; font-size: 25px;" bgcolor="#F5F7FA">
+                                          Pick Your Set Up
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" bgcolor="#F5F7FA" valign="middle">
+<!--                                           <a href="http://litmus.com" target="_blank"><img src="news-1.jpg" width="240" height="130" style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;" alt="Fluid images" border="0" class="img-max"></a> -->
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 16px; line-height: 25px;" bgcolor="#F5F7FA">
+                                          Choose your browser that you would want papernotes on.
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]>
+                      </td>
+                      <td width="20" style="font-size: 1px;">&nbsp;</td>
+                      <td align="right" valign="top" width="240">
+                      <![endif]-->
+                      <div style="display:inline-block; margin: 0 -2px; max-width:50%; min-width:240px; vertical-align:top; width:100%;" class="wrapper">
+                        <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:240px;" class="wrapper">
+                          <tr>
+                            <td align="center" valign="top">
+                              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                  <td style="padding: 20px 0 30px 0;">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                      <tr>
+                                        <td align="center" style="padding: 15px 0 0 0; font-family: Arial, sans-serif; color: #333333; font-size: 25px;" bgcolor="#F5F7FA">
+                                          Install your Key
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" bgcolor="#F5F7FA" valign="middle">
+<!--                                           <a href="http://litmus.com" target="_blank">
+                                            <img src="news-1.jpg" width="240" height="130" style="display: block; color: #666666; font-family: Helvetica, arial, sans-serif; font-size: 13px; width: 240px; height: 130px;" alt="Fluid images" border="0" class="img-max">
+                                          </a> -->
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                          <td align="center" style="padding: 5px 0 0 0; font-family: Arial, sans-serif; color: #666666; font-size: 16px; line-height: 25px;" bgcolor="#F5F7FA">
+                                            Open the link provided below in your browser of choice.<br>
+                                            <a href="https://www.papernotes.co/install-key/{{uniqueToken}}">
+                                              Click here to install your key
+                                            </a>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <!--[if (gte mso 9)|(IE)]>
+                      </td>
+                      </tr>
+                      </table>
+                      <![endif]-->
+                    </td>
+                  </tr>
+                </table>
+                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- TITLE SECTION AND COPY -->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333;" class="padding">
+                      Here are your links. <br />
+                      <span style="font-size: 16px;"> Note: Links are only available after installing your key. </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding: 20px 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                      Share your unique send messages link!
+                      <a href="www.papernotes.co/send/{{userEmail}}">www.papernotes.co/send/{{userEmail}}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding: 0 0 20px 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                      Access your this link to view your messsages.
+                      <a href="www.papernotes.co/view/{{userEmail}}">www.papernotes.co/view/{{userEmail}}</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          </table>
+          <!--[if (gte mso 9)|(IE)]>
+          </td>
+          </tr>
+          </table>
+          <![endif]-->
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
