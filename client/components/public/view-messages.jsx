@@ -39,7 +39,9 @@ ViewMessagesLoader = React.createClass({
         </div>
       );
     }
-    //
+
+    let email = "https://www.papernotes.co/send/" + this.props.email;
+
     return (
       <div className="container">
         <br />
@@ -60,8 +62,8 @@ ViewMessagesLoader = React.createClass({
           <caption>
             Messages for { this.props.email }
             <span className="pull-right">
-              <a href="https://www.papernotes.co/send/{this.props.email}">
-                www.papernotes.co/send/{this.props.email}
+              <a href={email}>
+                {email}
               </a>
             </span>
           </caption>

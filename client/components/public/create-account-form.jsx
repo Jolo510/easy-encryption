@@ -13,9 +13,14 @@ CreateAccountForm = React.createClass({
 			'marginRight': '5px'
 		}
 
-		let inputStyle ={
+		let inputStyle = {
 			'minWidth': '300px'
 		}
+
+		let buttonStyle = {
+			'marginBottom': '26px'
+		}
+
 		return (
 			<div>
 				<form id="emailSignup" className="form-inline signUp" onSubmit={this.handleSubmit}>
@@ -31,7 +36,7 @@ CreateAccountForm = React.createClass({
 				    		tabIndex="1"
 				    	/>
 						  <span className="input-group-btn">
-								<button type="submit" className="btn btn-success" tabIndex="2">Submit</button>
+								<button type="submit" className="btn btn-success" style={buttonStyle} tabIndex="2">Submit</button>
 						  </span>
 				    </div>
 				  </div>
