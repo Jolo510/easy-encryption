@@ -6,6 +6,7 @@ Default = React.createClass({
   			<div>
   			  {this.props.yield}
   			</div>
+        <AppFooter />
       </div>
 		);
 	}
