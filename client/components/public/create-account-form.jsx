@@ -32,7 +32,7 @@ CreateAccountForm = React.createClass({
 								name="emailAddress"
 				    		className="form-control"
 				    		style={inputStyle}
-				    		placeholder="Email Address"
+				    		placeholder="Enter your email to create an account!"
 				    		tabIndex="1"
 				    	/>
 						  <span className="input-group-btn">

@@ -14,7 +14,7 @@ SendMessageForm = React.createClass({
       const senderEmail = parts.pop();
       $( '[name="senderEmail"]' ).val(senderEmail);
 
-      Bert.alert( 'Sender Email Address Found!', 'info', 'growl-top-right' );
+      Bert.alert( 'Account Information Found!', 'info', 'growl-top-right' );
     }
   },
 
@@ -147,7 +147,7 @@ SendMessageForm = React.createClass({
               placeholder="Subject" />
             <br />
             <label htmlFor="message"> Message &nbsp;</label>
-            <textarea className="form-control" name="message" rows="15" placeholder="Enter Message Here" />
+            <textarea className="form-control" name="message" rows="12" placeholder="Enter Message Here" />
           </div>
           <button type="submit" id="sendMessageBtn" className="btn btn-success pull-right" data-loading-text="Sending...">Send</button>
         </form>
