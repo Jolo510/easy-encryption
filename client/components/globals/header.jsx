@@ -18,7 +18,7 @@ AppHeader = React.createClass({
     };
 
     let navItemPadding = {
-      'padding': '8px 15px'
+      'padding': '8px 0px 8px 15px'
     };
 
     let viewMessagesButton;
