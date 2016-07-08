@@ -101,8 +101,11 @@ EncryptedMessageBox = React.createClass({
   getInitialState : function() {
      return { showMe : false };
   },
-  onClick : function() {
-     this.setState({ showMe : true} );
+  decryptText : function() {
+    this.setState({ showMe : true} );
+  },
+  encryptText : function() {
+    this.setState({ showMe : false} );
   },
   encryptedMessage() {
     let data = this.data.message;
@@ -145,29 +148,40 @@ EncryptedMessageBox = React.createClass({
     };
 
     let textCenter= {
-      'textAlign': 'center'
+      'textAlign': 'center',
+      'paddingBottom': '5px'
     };
 
     let test = {
-      'fontSize': '50px'
+      'width': '100%',
+      'border': '.25px solid black',
     };
 
     if( this.state.showMe ) {
       return (
-        <div style={decryptedTextStyle} >
-          { this.decryptedMessage() }
+        <div>
+          <div style={textCenter}>
+            <button className="btn btn-default" style={test} onClick={ this.encryptText }>
+              <i className="fa fa-unlock fa-3x"></i>
+            </button>
+          </div>
+          <div style={decryptedTextStyle} >
+            { this.decryptedMessage() }
+          </div>
         </div>
       );
     } else {
       return (
-        <div style={encryptedTextStyle}>
-          <div>
-            { this.encryptedMessage() }
-          </div>
+        <div>
           <div style={textCenter}>
-            <button className="btn btn-default" style={test} onClick={ this.onClick }>
-              <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
+            <button className="btn btn-default" style={test} onClick={ this.decryptText }>
+              <i className="fa fa-lock fa-3x"></i>
             </button>
+          </div>
+          <div style={encryptedTextStyle}>
+            <div>
+              { this.encryptedMessage() }
+            </div>
           </div>
         </div>
       );

@@ -33,7 +33,7 @@ ViewMessagesLoader = React.createClass({
   render() {
     if (this.data.messagesLoading) {
       return (
-        <LoadingComponent />
+        <Loading />
       );
     }
 
