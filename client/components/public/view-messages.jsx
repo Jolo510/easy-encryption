@@ -5,7 +5,7 @@ ViewMessagesLoader = React.createClass({
     var handle = Meteor.subscribe( 'messages', emailAddress );
 
     return {
-      messagesLoading: ! handle.ready(),
+      messagesLoading: !handle.ready(),
       messages: Messages.find({ userEmail: emailAddress}, {sort: { "created_at": -1 } }).fetch(),
     };
   },
@@ -31,12 +31,9 @@ ViewMessagesLoader = React.createClass({
   },
 
   render() {
-    // Shows loading
     if (this.data.messagesLoading) {
       return (
-        <div className="container">
-          Loading...
-        </div>
+        <LoadingComponent />
       );
     }
 

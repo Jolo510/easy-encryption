@@ -118,7 +118,11 @@ EncryptedMessageBox = React.createClass({
     let message = getItemFromData(data, "message");
 
     if ( message ) {
+      // var startTime = new Date();
       let decryptedText = RSAHelpers.decrypt(privateKey, message);
+      // let endTime = new Date();
+
+      // console.log( (endTime.getTime() - startTime.getTime()) / 1000 + " seconds");
       return decryptedText;
     }
   },
@@ -169,7 +173,7 @@ EncryptedMessageBox = React.createClass({
       );
     }
   }
-})
+});
 
 function getItemFromData(dataArray, key) {
   if ( Array.isArray(dataArray) && dataArray.length > 0 && dataArray[0][key] ) {
