@@ -55,32 +55,34 @@ ViewMessagesLoader = React.createClass({
           </div>
           <button type="submit" className="btn btn-default" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
         </form>
-        <table className="table table-hover border">
-          <caption>
-            Messages for { this.props.email }
-            <span className="pull-right">
-              <a href={email}>
-                {email}
-              </a>
-            </span>
-          </caption>
-          <thead>
-            <tr>
-              <th>Sent From</th>
-              <th>Subject</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.data.messages.map( ( message, index ) =>
-                {
-                  return <ListMessages key={index} message={message} />;
-                }
-              )
-            }
-          </tbody>
-        </table>
+        <div className="table-responsive">
+          <table className="table table-hover border">
+            <caption>
+              Messages for { this.props.email }
+              <span className="pull-right">
+                <a href={email}>
+                  {email}
+                </a>
+              </span>
+            </caption>
+            <thead>
+              <tr>
+                <th>Sent From</th>
+                <th>Subject</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.data.messages.map( ( message, index ) =>
+                  {
+                    return <ListMessages key={index} message={message} />;
+                  }
+                )
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

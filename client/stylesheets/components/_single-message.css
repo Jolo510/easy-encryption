@@ -8,11 +8,13 @@
 	border: 1px solid #ddd;
 }
 
-body {
-	padding-bottom: 70px;
-}
-
 .fast-spin {
   -webkit-animation: fa-spin 1.2s infinite linear;
   animation: fa-spin 1.2s infinite linear;
+}
+
+.ellipsis-overflow {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

@@ -5,11 +5,11 @@ SingleMessage = React.createClass({
     const userEmail = this.props.email;
 
     var handle = Meteor.subscribe( 'messages', userEmail );
-    var test = Messages.find({ _id: messageId }).fetch();
+    var messages = Messages.find({ _id: messageId }).fetch();
 
     return {
       messagesLoading: ! handle.ready(),
-      message: test
+      message: messages
     };
   },
   userEmail() {
@@ -36,21 +36,6 @@ SingleMessage = React.createClass({
     }
 
   },
-  encryptedMessage() {
-    let data = this.data.message;
-    let privateKey = localStorage.getItem( "easyEncodingKey-"+this.props.email );
-    var message = getItemFromData(data, "message");
-
-    if ( message ) {
-      return message
-    }
-
-    // var decryptedText = RSAHelpers.decrypt(privateKey, message);
-    // return decryptedText;
-  },
-  decryptMessage() {
-    console.log("Hello World!");
-  },
   timeSent() {
     let data = this.data.message;
     let time = getItemFromData(data, "created_at");
@@ -63,17 +48,19 @@ SingleMessage = React.createClass({
   render() {
     return (
       <div className="container">
-        <div className="subject">
+        <div className="subject ellipsis-overflow">
           { this.subject() }
         </div>
         <hr />
         <div className="row">
-          <div className="col-xs-8 col-sm-8 col-md-8">
-            From: { this.senderEmail() }
+          <div className="col-xs-8 col-sm-8 col-md-8 ellipsis-overflow">
+            <span>
+              <b>From:</b> { this.senderEmail() }
+            </span>
           </div>
-          <div className="col-xs-4 col-sm-4 col-md-4 pull-right">
+          <div className="col-xs-4 col-sm-4 col-md-4 ellipsis-overflow">
             <span className="pull-right">
-              Date Sent: { this.timeSent() }
+              <b>Date Sent:</b> { this.timeSent() }
             </span>
           </div>
         </div>
@@ -121,11 +108,11 @@ EncryptedMessageBox = React.createClass({
     let message = getItemFromData(data, "message");
 
     if ( message ) {
-      // var startTime = new Date();
       let decryptedText = RSAHelpers.decrypt(privateKey, message);
-      // let endTime = new Date();
 
-      // console.log( (endTime.getTime() - startTime.getTime()) / 1000 + " seconds");
+      if ( message ==  decryptedText ) {
+        Bert.alert( "Decryption did not work. Are you sure this is your email address?", 'warning', 'growl-top-left' );
+      }
       return decryptedText;
     }
   },
@@ -141,6 +128,7 @@ EncryptedMessageBox = React.createClass({
     };
 
     let decryptedTextStyle = {
+      'wordWrap': 'break-word',
       'border': '.25px solid black',
       'borderRadius': '5px',
       'minHeight': '345px',
@@ -162,11 +150,13 @@ EncryptedMessageBox = React.createClass({
         <div>
           <div style={textCenter}>
             <button className="btn btn-default" style={test} onClick={ this.encryptText }>
-              <i className="fa fa-unlock fa-3x"></i>
+              <i className="fa fa-unlock-alt fa-3x"></i>
             </button>
           </div>
           <div style={decryptedTextStyle} >
-            { this.decryptedMessage() }
+            <div>
+              { this.decryptedMessage() }
+            </div>
           </div>
         </div>
       );

@@ -1,0 +1,28 @@
+@media (max-width: 580px) {
+	.ellipsis-text-sm {
+		overflow: hidden;
+    	text-overflow: ellipsis;
+    	max-width: 25px;
+	}
+}
+
+.email-header-style {
+	display: inline-block;
+	margin-bottom: -8px;
+	padding-right: 5px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.margin-bottom-none {
+	margin-bottom: 0px;
+}
+
+.nav-item-padding {
+	padding: 8px 0px 8px 15px;
+}
+
+.margin-none {
+	margin: 0px;
+}

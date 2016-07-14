@@ -14,12 +14,17 @@ CreateAccountForm = React.createClass({
 		}
 
 		let inputStyle = {
-			'minWidth': '300px'
-		}
+			'minWidth': '300px',
+			// 1976D2
+			'borderColor': '#595959',
+			'borderWidth': '2px',
+			'height': '36px'
+		};
 
 		let buttonStyle = {
-			'marginBottom': '26px'
-		}
+			'marginBottom': '26px',
+			'borderWidth': '2px'
+		};
 
 		return (
 			<div>
@@ -33,10 +38,11 @@ CreateAccountForm = React.createClass({
 				    		className="form-control"
 				    		style={inputStyle}
 				    		placeholder="Enter your email to create an account!"
+				    		autoComplete="off"
 				    		tabIndex="1"
 				    	/>
 						  <span className="input-group-btn">
-								<button type="submit" className="btn btn-success" style={buttonStyle} tabIndex="2">Submit</button>
+								<button type="submit" className="btn btn-default btn-style" style={buttonStyle} tabIndex="2">Submit</button>
 						  </span>
 				    </div>
 				  </div>

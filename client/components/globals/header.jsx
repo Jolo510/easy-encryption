@@ -12,17 +12,17 @@ AppHeader = React.createClass({
   },
 
   render() {
-    let navbarStyle = {
-      'marginBottom': '0px',
-      'height': '50px'
-    };
-
-    let navItemPadding = {
-      'padding': '8px 0px 8px 15px'
-    };
-
     let viewMessagesButton;
     const emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
+
+    let removeBottomBorder = {
+      'border': '0px',
+      'borderRadius': '0px'
+    };
+
+    let brand = {
+      'fontSize': '22px'
+    };
 
     if ( Array.isArray(emailsArray) && emailsArray.length > 0 ) {
       viewMessagesButton = <ViewMessagesLink />;
@@ -30,12 +30,16 @@ AppHeader = React.createClass({
       viewMessagesButton = "";
     }
 
-
     return (
-      <nav className="navbar navbar-default" style={navbarStyle} role="navigation">
+      <nav className="navbar navbar-default margin-bottom-none default-primary-color text-primary-color" style={removeBottomBorder} role="navigation">
         <div className="container">
-          <a className="navbar-brand" href={this.brandLink()}>Paper Notes</a>
-          <div className="pull-right" style={navItemPadding}>
+          <a className="navbar-brand" style={brand} href={this.brandLink()}>
+            <i className="fa fa-lock fa-lg text-primary-color" aria-hidden="true"></i>&nbsp;
+            <span className="text-primary-color">
+              Paper Notes
+            </span>
+          </a>
+          <div className="pull-right nav-item-padding">
             {viewMessagesButton}
           </div>
         </div>
@@ -46,27 +50,28 @@ AppHeader = React.createClass({
 
 ViewMessagesLink = React.createClass({
   render() {
-    let viewMessagesStyle = {
-      'marginTop': '8px',
-      'fontSize': '18px'
-    };
-
-    let noMargin = {
-      'margin': '0px'
-    };
-
-    let emailStyle = {
-      'display': 'inline-block',
-      'maxWidth': '145px',
-      'marginBottom': '-7px',
-      'paddingRight': '5px',
-      'overflow': 'hidden',
-      'textOverflow': 'ellipsis',
-      'whiteSpace': 'nowrap',
-    };
-
     let emailLink, email = "";
     const emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
+
+    let envelopeSize = {
+      'fontSize': '16px',
+      'fontWeight': 'bold'
+    };
+
+    let primaryColor = {
+      // 1976D2
+      'color': '#333333',
+      'borderColor': '#333333',
+      'borderWidth': '3px'
+    };
+
+    let darkPrimaryColor = {
+      'borderColor': '#333333'
+    };
+
+    let btnText = {
+      'fontSize': '16px'
+    };
 
     if ( Array.isArray(emailsArray) && emailsArray.length >= 0 ) {
       email = emailsArray[0];
@@ -75,12 +80,12 @@ ViewMessagesLink = React.createClass({
 
     return (
       <div>
-        <div style={emailStyle}>
-          {email}
+        <div className="ellipsis-text-sm email-header-style">
+          {email}&nbsp;
         </div>
         <span>
-          <a href={emailLink} className="btn btn-default" style={noMargin}>
-            <span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+          <a href={emailLink} className="btn btn-default margin-none font-family btn-style" style={btnText}>
+            <i className="fa fa-envelope-o" style={envelopeSize} aria-hidden="true"></i> - Messages
           </a>
         </span>
       </div>

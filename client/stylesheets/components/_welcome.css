@@ -1,0 +1,159 @@
+.title {
+	text-align: center;
+}
+
+/****
+ *	Font style for the welcome page
+ ****/
+.font-align-left {
+	text-align: right;
+}
+
+.font-align-right {
+	text-align: left;
+}
+
+.font-family {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.font-style {
+	font-size: 18px;
+	display: block;
+	max-width: 100%;
+}
+
+html {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	display: block;
+	max-width: 100%;
+}
+
+body {
+	padding-bottom: 50px;
+}
+
+@media (max-width: 992px) {
+	.font-align-left {
+		text-align: center;
+	}
+	.font-align-right {
+		text-align: center;
+	}
+}
+
+@media (max-width: 464px) {
+	.hide-in-small-view {
+		visibility: hidden;
+	}
+}
+/****
+ *  Overriding bootstraps container class
+ ****/
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 920px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 920px;
+  }
+}
+
+/****
+ * Color Theme
+ ****/
+.dark-primary-color {
+	background: #1976D2;
+}
+
+.default-primary-color {
+	/*background: #2196F3;*/
+	background: #03A9F4;
+}
+
+.light-primary-color {
+	background: #BBDEFB;
+}
+
+.text-primary-color {
+	color: #FFFFFF;
+}
+
+.accent-color {
+	background: #FFEB3B;
+}
+
+.primary-text-color {
+	color: #212121;
+}
+
+.secondary-text-color {
+	color: #727272;
+}
+
+.divider-color {
+	border-color: #B6B6B6;
+}
+
+.btn-style {
+	/*1976D2*/
+	color: #595959;
+	border-color: #595959;
+	border-width: 3px;
+}
+
+.dark-border {
+	text-shadow: -2px -2px 0 #333333, 2px -2px 0 #333333, -2px 2px 0 #333333, 2px 2px 0 #333333;
+}
+
+.super-light-grey-background {
+	background-color: #F9F9F9;
+}
+
+/****
+ *	Styles
+ ****/
+.large-icon-size {
+	font-size: 100px;
+}
+
+.med-icon-size {
+	font-size: 75px;
+}
+
+.icon-padding {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.img-border {
+   border:2px solid black;
+}
+
+.row-padding {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.remove-top-margin {
+	margin-top: 0px;
+}
+
+.hr-alt {
+	border: none;
+    height: 5px;
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+    width: 20%;
+    border-radius: 5px;
+}
