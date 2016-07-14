@@ -49,10 +49,19 @@ AppHeader = React.createClass({
 });
 
 ViewMessagesLink = React.createClass({
-  render() {
+  messagesLink() {
     let emailLink, email = "";
     const emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
 
+    if ( Array.isArray(emailsArray) && emailsArray.length >= 0 ) {
+      email = emailsArray[0];
+      // emailLink = "https://www.papernotes.co/view/" + email;
+
+      return FlowRouter.path( '/view/' + email );
+    }
+  },
+
+  render() {
     let envelopeSize = {
       'fontSize': '16px',
       'fontWeight': 'bold'
@@ -73,9 +82,11 @@ ViewMessagesLink = React.createClass({
       'fontSize': '16px'
     };
 
+    let email = "";
+    const emailsArray = EncryptionKeyHelpers.getEmailAccountsFromLocalStorage();
+
     if ( Array.isArray(emailsArray) && emailsArray.length >= 0 ) {
       email = emailsArray[0];
-      emailLink = "https://www.papernotes.co/view/" + email;
     }
 
     return (
@@ -84,7 +95,7 @@ ViewMessagesLink = React.createClass({
           {email}&nbsp;
         </div>
         <span>
-          <a href={emailLink} className="btn btn-default margin-none font-family btn-style" style={btnText}>
+          <a href={ this.messagesLink() } className="btn btn-default margin-none font-family btn-style" style={btnText}>
             <i className="fa fa-envelope-o" style={envelopeSize} aria-hidden="true"></i> - Messages
           </a>
         </span>
