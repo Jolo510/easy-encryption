@@ -55,11 +55,23 @@ ListMessages = React.createClass({
 		FlowRouter.go('/view/' + userEmail + '/' + messageId);
 	},
   render() {
+  	let sender = {
+  		'maxWidth': '216px'
+  	}
+
+  	let subject = {
+  		'maxWidth': '516px'
+  	}
+
+  	let date = {
+  		'maxWidth' :'155px'
+  	}
+
   	return (
-			<tr className="table-row-style ellipsis-overflow" onClick={ this.handleClick } >
-				<td className="ellipsis-overflow">{ this.senderEmail() }</td>
-				<td className="ellipsis-overflow">{ this.subject() }</td>
-				<td className="ellipsis-overflow">{ this.timeSent() }</td>
+			<tr className="table-row-style" onClick={ this.handleClick } >
+				<td className="ellipsis-overflow" style={sender}>{ this.senderEmail() }</td>
+				<td className="ellipsis-overflow" style={subject}>{ this.subject() }</td>
+				<td className="ellipsis-overflow" style={date}>{ this.timeSent() }</td>
 			</tr>
   	);
   }
