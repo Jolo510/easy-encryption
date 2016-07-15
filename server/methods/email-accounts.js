@@ -10,6 +10,9 @@ Meteor.methods({
  createEmailAccount: function (emailAddress) {
 		check([emailAddress], [String]);
 
+    // Save Address in Lower Case to make it case insensitive
+    emailAddress = emailAddress.toLowerCase();
+
 		var status = EmailAccounts.findOne({
 			email: emailAddress
 		});

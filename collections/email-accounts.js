@@ -13,6 +13,10 @@ EmailAccounts.deny({
 });
 
 let EmailAccountsSchema = new SimpleSchema({
+	/* Need to add a verification to check if String is all lowercase.
+	 * - Currently do so in the 'createEmailAccount' method
+	 * - But for other future functions that might modify this collection, it's better to have the check here
+	 */
 	"email": {
 		type: String,
 		label: "The email address associated with the account",
