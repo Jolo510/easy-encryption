@@ -61,7 +61,7 @@ ViewMessagesLoader = React.createClass({
               tabIndex="1"
             />
           </div>
-          <button type="submit" className="btn btn-default btn-style" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
+          <button type="submit" className="btn btn-default btn-style btn-submit" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
         </form>
         <div className="table-responsive">
           <table className="table table-hover border content-font-style table-style table-striped" >

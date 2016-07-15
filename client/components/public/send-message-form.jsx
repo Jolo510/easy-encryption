@@ -149,7 +149,7 @@ SendMessageForm = React.createClass({
             <label htmlFor="message"> Message &nbsp;</label>
             <textarea className="form-control input-style" name="message" rows="12" placeholder="Enter Message Here" />
           </div>
-          <button type="submit" id="sendMessageBtn" className="btn btn-success btn-style pull-right" data-loading-text="Sending...">Send</button>
+          <button type="submit" id="sendMessageBtn" className="btn btn-success btn-style btn-submit pull-right" data-loading-text="Sending...">Send</button>
         </form>
       </div>
     );

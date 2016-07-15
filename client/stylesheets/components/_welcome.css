@@ -123,6 +123,12 @@ body {
 	border-color: #B6B6B6;
 }
 
+@media (max-width: 768px) {
+	.btn-submit {
+		width: 100%;
+	}
+}
+
 .btn-style {
 	/*1976D2*/
 	color: #595959;
