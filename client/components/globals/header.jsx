@@ -55,7 +55,11 @@ ViewMessagesLink = React.createClass({
 
     if ( Array.isArray(emailsArray) && emailsArray.length >= 0 ) {
       email = emailsArray[0];
-      // emailLink = "https://www.papernotes.co/view/" + email;
+
+      // Heap Tracker
+      if ( typeof heap !== 'undefined' ) {
+        heap.identify(email);
+      }
 
       return FlowRouter.path( '/view/' + email );
     }
