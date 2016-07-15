@@ -14,7 +14,7 @@ SendMessageForm = React.createClass({
       const senderEmail = parts.pop();
       $( '[name="senderEmail"]' ).val(senderEmail);
 
-      Bert.alert( 'Account Information Found!', 'info', 'growl-top-right' );
+      Bert.alert( 'Account Information Found!', 'info', 'growl-top-left' );
     }
   },
 
@@ -40,7 +40,7 @@ SendMessageForm = React.createClass({
     if ( Array.isArray(emailsArray) && emailsArray.length > 0) {
       senderEmail = emailsArray[0];
     } else {
-      Bert.alert("Create an account to send messages.", "danger");
+      Bert.alert("Create an account to send messages.", "danger", "growl-top-left");
       return ;
     }
 
@@ -119,7 +119,7 @@ SendMessageForm = React.createClass({
             alert("Unknown Error");
           }
 
-          Bert.alert("Message Sent", "success");
+          Bert.alert("Message Sent", "success", "growl-top-left");
 
           // Clearing input after sending message
           $( '[name="subject"]' ).val("");
@@ -143,13 +143,13 @@ SendMessageForm = React.createClass({
             <input
               type="text"
               name="subject"
-              className="form-control"
+              className="form-control input-style"
               placeholder="Subject" />
             <br />
             <label htmlFor="message"> Message &nbsp;</label>
-            <textarea className="form-control" name="message" rows="12" placeholder="Enter Message Here" />
+            <textarea className="form-control input-style" name="message" rows="12" placeholder="Enter Message Here" />
           </div>
-          <button type="submit" id="sendMessageBtn" className="btn btn-success pull-right" data-loading-text="Sending...">Send</button>
+          <button type="submit" id="sendMessageBtn" className="btn btn-success btn-style pull-right" data-loading-text="Sending...">Send</button>
         </form>
       </div>
     );

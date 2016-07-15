@@ -16,7 +16,7 @@ InstallPrivateKey = React.createClass({
   downloadPrivateKey( event ) {
     // Checking if web broswer supports local storage
     if (typeof(Storage) == "undefined") {
-      Bert.alert( "Sorry, we don't support your browser. Please use another.", "danger");
+      Bert.alert( "Sorry, we don't support your browser. Please use another.", "danger", 'growl-top-left');
       return ;
     }
 
@@ -38,23 +38,23 @@ InstallPrivateKey = React.createClass({
       Meteor.call("savePublicKey", token, publicKey, function(err) {
         if ( err ) {
           if ( err.error == "account-does-not-exists") {
-            Bert.alert("Private key has already been installed or account doesn't exists.", "warning");
+            Bert.alert("Private key has already been installed or account doesn't exists.", "warning", 'growl-top-left');
             // Redirect to homepage?
             return;
           }
 
           if ( err.error == "unable-to-remove-token" ) {
-            Bert.alert("An error has occured.");
+            Bert.alert("An error has occured.", 'warning', 'growl-top-left');
             return;
           }
 
           if ( err.error == "unable-to-save" ) {
-            Bert.alert("Unable to save public key");
+            Bert.alert("Unable to save public key", 'danger', 'growl-top-left');
             return;
           }
         }
 
-        Bert.alert("Private key installed!", "success");
+        Bert.alert("Private key installed!", "success", 'growl-top-left');
 
         FlowRouter.go("/view/"+emailAddress);
       });
@@ -77,7 +77,7 @@ InstallPrivateKey = React.createClass({
           </p>
         </div>
         <div>
-          <button className="btn btn-default text-center" data-loading-text="Installing..." onClick={this.downloadPrivateKey}>
+          <button className="btn btn-default btn-style text-center" data-loading-text="Installing..." onClick={this.downloadPrivateKey}>
             Download Private Key
           </button>
         </div>

@@ -19,7 +19,12 @@ let EmailAccountsSchema = new SimpleSchema({
 		unique: true,
 		regEx: SimpleSchema.RegEx.Email,
 		optional: false,
-		max:50
+		max:50,
+		autoValue: function () {
+			if (this.isSet && typeof this.value === "string") {
+				return this.value.toLowerCase();
+			}
+		}
 	},
 	"publicKey": {
 		type: String,

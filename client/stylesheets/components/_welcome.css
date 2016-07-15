@@ -17,10 +17,28 @@
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.content-font-style {
+	font-size: 1.05em;
+}
+
 .font-style {
 	font-size: 18px;
 	display: block;
 	max-width: 100%;
+}
+
+.table-style {
+	border-color: #595959;
+	border-width: 3px;
+}
+
+.table-row-style {
+	border: 2px solid #595959;
+	cursor: pointer;
+}
+
+.input-style {
+	border: 2px solid #595959;
 }
 
 html {
@@ -110,6 +128,17 @@ body {
 	color: #595959;
 	border-color: #595959;
 	border-width: 3px;
+	background-color: #FFFFFF;
+}
+
+.btn-style:hover {
+	background-color: #BBDEFB;
+	border-color: #595959;
+}
+
+.btn-style:focus {
+	background-color: #BBDEFB;
+	border-color: #595959;
 }
 
 .dark-border {
@@ -156,4 +185,11 @@ body {
     background-color: #333; /* Modern Browsers */
     width: 20%;
     border-radius: 5px;
+}
+
+.hr-long-alt {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-width: 2px;
+	border-color: #B6B6B6;
 }

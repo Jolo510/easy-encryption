@@ -1,7 +1,8 @@
 Loading = React.createClass({
   render() {
   	let paddingTop = {
-			'paddingTop': '25px'
+			'paddingTop': '25px',
+      'color': '#03A9F4'
 		};
 
     return (

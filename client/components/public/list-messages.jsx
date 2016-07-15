@@ -56,7 +56,7 @@ ListMessages = React.createClass({
 	},
   render() {
   	return (
-			<tr onClick={ this.handleClick } >
+			<tr className="table-row-style ellipsis-overflow" onClick={ this.handleClick } >
 				<td className="ellipsis-overflow">{ this.senderEmail() }</td>
 				<td className="ellipsis-overflow">{ this.subject() }</td>
 				<td className="ellipsis-overflow">{ this.timeSent() }</td>

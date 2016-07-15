@@ -51,7 +51,7 @@ SingleMessage = React.createClass({
         <div className="subject ellipsis-overflow">
           { this.subject() }
         </div>
-        <hr />
+        <hr className="hr-long-alt" />
         <div className="row">
           <div className="col-xs-8 col-sm-8 col-md-8 ellipsis-overflow">
             <span>
@@ -64,7 +64,7 @@ SingleMessage = React.createClass({
             </span>
           </div>
         </div>
-        <hr />
+        <hr className="hr-long-alt" />
         <EncryptedMessageBox email={ this.props.email } messageId={ this.props.messageId } />
       </div>
     )
@@ -119,9 +119,9 @@ EncryptedMessageBox = React.createClass({
   render() {
     let encryptedTextStyle = {
       'wordWrap': 'break-word',
-      'border': '.25px solid black',
+      'border': '3px solid #595959',
       'borderRadius': '5px',
-      'minHeight': '345px',
+      'minHeight': '340px',
       'padding': '5px',
       'color': 'transparent',
       'textShadow': 'rgba(0, 0, 0, 0.7) 0px 0px 2px'
@@ -129,9 +129,9 @@ EncryptedMessageBox = React.createClass({
 
     let decryptedTextStyle = {
       'wordWrap': 'break-word',
-      'border': '.25px solid black',
+      'border': '3px solid #595959',
       'borderRadius': '5px',
-      'minHeight': '345px',
+      'minHeight': '340px',
       'padding': '5px'
     };
 
@@ -140,20 +140,19 @@ EncryptedMessageBox = React.createClass({
       'paddingBottom': '5px'
     };
 
-    let test = {
-      'width': '100%',
-      'border': '.25px solid black',
+    let border = {
+      'width': '100%'
     };
 
     if( this.state.showMe ) {
       return (
         <div>
           <div style={textCenter}>
-            <button className="btn btn-default" style={test} onClick={ this.encryptText }>
+            <button className="btn btn-default btn-style" style={border} onClick={ this.encryptText }>
               <i className="fa fa-unlock-alt fa-3x"></i>
             </button>
           </div>
-          <div style={decryptedTextStyle} >
+          <div className="table-style" style={decryptedTextStyle} >
             <div>
               { this.decryptedMessage() }
             </div>
@@ -164,11 +163,11 @@ EncryptedMessageBox = React.createClass({
       return (
         <div>
           <div style={textCenter}>
-            <button className="btn btn-default" style={test} onClick={ this.decryptText }>
+            <button className="btn btn-default btn-style" style={border} onClick={ this.decryptText }>
               <i className="fa fa-lock fa-3x"></i>
             </button>
           </div>
-          <div style={encryptedTextStyle}>
+          <div className="table-style" style={encryptedTextStyle}>
             <div>
               { this.encryptedMessage() }
             </div>

@@ -39,28 +39,35 @@ ViewMessagesLoader = React.createClass({
 
     let email = "https://www.papernotes.co/send/" + this.props.email;
 
+    let inputStyle = {
+      'minWidth': '300px',
+      'borderColor': '#595959',
+      'borderWidth': '2px',
+      'height': '38px'
+    }
+
     return (
       <div className="container">
         <br />
         <form className="form-inline">
           <div className="form-group">
-            <label htmlFor="sendToEmailAddressForm">Access Users Message Form:&nbsp;</label>
+            <label htmlFor="sendToEmailAddressForm" className="content-font-style">Send Message To :&nbsp;</label>
             <input
               type="email"
               name="sendToEmailAddress"
-              className="form-control"
-              placeholder="JohnDoe@gmail.com"
+              className="form-control btn-style"
+              placeholder="example@gmail.com"
+              style={inputStyle}
               tabIndex="1"
             />
           </div>
-          <button type="submit" className="btn btn-default" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
+          <button type="submit" className="btn btn-default btn-style" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
         </form>
         <div className="table-responsive">
-          <table className="table table-hover border">
-            <caption>
-              Messages for { this.props.email }
-              <span className="pull-right">
-                <a href={email}>
+          <table className="table table-hover border content-font-style table-style table-striped" >
+            <caption className="row-padding">
+              <span>
+                Share Your Send Messages Link : <a href={email}>
                   {email}
                 </a>
               </span>
