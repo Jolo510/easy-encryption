@@ -115,6 +115,8 @@ HowToGetStarted = React.createClass({
 								<p className="font-style">
 									You get a link you can share with others.
 									Your friends can send you messages using this link that can only be decrypted from your browser.
+									<br /> <br />
+									<em>We can't even decrypt your messages!</em>
 								</p>
 							</div>
 							<div className="col-sm-6 col-sm-pull-6 text-center med-icon-size">
