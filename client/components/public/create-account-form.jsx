@@ -14,7 +14,6 @@ CreateAccountForm = React.createClass({
 		}
 
 		let inputStyle = {
-			'minWidth': '300px',
 			// 1976D2
 			'borderColor': '#595959',
 			'borderWidth': '2px',
@@ -35,7 +34,7 @@ CreateAccountForm = React.createClass({
 				    	<input
 				    		type="email"
 								name="emailAddress"
-				    		className="form-control"
+				    		className="form-control create-form-input-style"
 				    		style={inputStyle}
 				    		placeholder="Enter your email to create an account!"
 				    		autoComplete="off"

@@ -40,7 +40,6 @@ ViewMessagesLoader = React.createClass({
     let email = "https://www.papernotes.co/send/" + this.props.email;
 
     let inputStyle = {
-      'minWidth': '300px',
       'borderColor': '#595959',
       'borderWidth': '2px',
       'height': '38px'
@@ -51,23 +50,24 @@ ViewMessagesLoader = React.createClass({
         <br />
         <form className="form-inline">
           <div className="form-group">
-            <label htmlFor="sendToEmailAddressForm" className="content-font-style">Send Message To :&nbsp;</label>
+            <label htmlFor="sendToEmailAddressForm" className="content-font-style">Send Message To:&nbsp;</label>
             <input
               type="email"
               name="sendToEmailAddress"
-              className="form-control btn-style"
+              className="form-control btn-style create-form-input-style"
               placeholder="example@gmail.com"
               style={inputStyle}
               tabIndex="1"
             />
           </div>
-          <button type="submit" className="btn btn-default btn-style btn-submit" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
+          <button type="submit" className="btn btn-default btn-style btn-submit send-message-to-btn" onClick={this.sendMessageForm} tabIndex="2">Submit</button>
         </form>
+
         <div className="table-responsive">
           <table className="table table-hover border content-font-style table-style table-striped" >
             <caption className="row-padding">
               <span>
-                Share Your Send Messages Link : <a href={email}>
+                Link To Send You Messages: <a href={email}>
                   {email}
                 </a>
               </span>

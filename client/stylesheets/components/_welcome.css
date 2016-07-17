@@ -21,6 +21,9 @@
 	font-size: 1.05em;
 }
 
+.bold {
+	font-weight: bold;
+}
 .font-style {
 	font-size: 18px;
 	display: block;
@@ -64,6 +67,18 @@ body {
 @media (max-width: 464px) {
 	.hide-in-small-view {
 		visibility: hidden;
+	}
+}
+
+@media (min-width: 768px) {
+	.create-form-input-style {
+		min-width: 300px;
+	}
+}
+
+@media (min-width: 768px) {
+	.send-message-to-btn {
+		margin-left: -3px;
 	}
 }
 /****

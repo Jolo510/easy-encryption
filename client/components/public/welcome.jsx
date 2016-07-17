@@ -94,7 +94,7 @@ HowToGetStarted = React.createClass({
 						<div className="col-sm-6 font-align-left">
 							<h3>Install Your Key</h3>
 							<p className="font-style">
-								Enter your email to create an account. We’ll send you a link that sets up your browser to be able to decrypt messages that are sent to your account.
+								Enter your email to create an account. We’ll send you a link that sets up your browser to be able to decrypt messages that are sent to your inbox.
 							</p>
 						</div>
 						<div className="col-sm-6 font-align-right large-icon-size icon-padding">
@@ -116,7 +116,7 @@ HowToGetStarted = React.createClass({
 									You get a link you can share with others.
 									Your friends can send you messages using this link that can only be decrypted from your browser.
 									<br /> <br />
-									<em>We can't even decrypt your messages!</em>
+									<b><em>Not even we can decrypt your messages!</em></b>
 								</p>
 							</div>
 							<div className="col-sm-6 col-sm-pull-6 text-center med-icon-size">
