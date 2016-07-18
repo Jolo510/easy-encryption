@@ -39,8 +39,11 @@ SingleMessage = React.createClass({
   timeSent() {
     let data = this.data.message;
     let time = getItemFromData(data, "created_at");
+    let currentTime = new Date();
+
     if ( time ) {
-      var date = time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
+      let date = time.toLocaleTimeString() + " " + time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
+
       return date;
     }
 
@@ -58,9 +61,9 @@ SingleMessage = React.createClass({
               <b>From:</b> { this.senderEmail() }
             </span>
           </div>
-          <div className="col-xs-4 col-sm-4 col-md-4 ellipsis-overflow">
+          <div className="col-xs-4 col-sm-4 col-md-4">
             <span className="pull-right">
-              <b>Date Sent:</b> { this.timeSent() }
+              { this.timeSent() }
             </span>
           </div>
         </div>

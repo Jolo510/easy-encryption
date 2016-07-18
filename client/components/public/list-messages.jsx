@@ -44,9 +44,20 @@ ListMessages = React.createClass({
 	},
 	timeSent() {
 		var time = this.props.message.created_at;
-		var date = time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
+    let currentTime = new Date();
 
-		return date;
+    if ( time ) {
+      let date = "";
+
+      if (time.getTime() > (currentTime.getTime() - 43200000) ) {
+        date = time.toLocaleTimeString();
+      } else {
+        date = time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
+      }
+
+      return date;
+    }
+
 	},
 	handleClick() {
 		const userEmail = this.props.message.userEmail,
