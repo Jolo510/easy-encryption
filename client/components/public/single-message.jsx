@@ -40,7 +40,7 @@ SingleMessage = React.createClass({
     let data = this.data.message;
     let time = getItemFromData(data, "created_at");
     if ( time ) {
-      var date = time.getMonth() + "/" + time.getDay() + "/" + time.getFullYear();
+      var date = time.getMonth() + "/" + time.getDate() + "/" + time.getFullYear();
       return date;
     }
 
