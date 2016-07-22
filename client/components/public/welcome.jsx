@@ -94,7 +94,7 @@ HowToGetStarted = React.createClass({
 						<div className="col-sm-6 font-align-left">
 							<h3>Install Your Key</h3>
 							<p className="font-style">
-								Enter your email to create an account. We’ll send you a link that sets up your browser to be able to decrypt messages that are sent to your inbox.
+								Enter your email to create an account. We’ll send you a link that sets up your browser to be able to decrypt messages that are sent to your Paper Notes inbox.
 							</p>
 						</div>
 						<div className="col-sm-6 font-align-right large-icon-size icon-padding">
